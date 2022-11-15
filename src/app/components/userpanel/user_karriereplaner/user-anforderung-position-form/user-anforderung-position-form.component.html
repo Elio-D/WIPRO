@@ -1,0 +1,67 @@
+<app-user-header></app-user-header>
+
+<div class="row justify-content-center">
+  <button routerLink="/planen/eigenkompetenzen" class="col-md-3 col-10 navUebersichtPassive">Welche Position passt zu mir</button>
+  <div class="col-md-1 col-12"></div>
+  <button class="col-md-3 col-10 navUebersichtAktive">Wie kann ich mich weiterbilden</button>
+</div>
+
+<div class="row row-cols">
+    <div class="col-md-3 col-12">
+
+        <div class="container w-100 py-5 h-100">
+            <div class="card">
+                <div class="card-body">
+            <h5 class="car-title" style="margin-bottom: 20px;">Ich möchte gerne folgendes können:</h5>
+
+            <form [formGroup]="kompetenzenFilterForm" #form="ngForm">
+       
+                <div class="form-group" style="margin-bottom:20px">
+                    <label for="position" class="form-label">Position</label>
+                    <select id="position" name="position" formControlName="position" (change)="changePosition()" class="form-select" [class.is-invalid]="position.invalid">
+                      <option value="" disable hidden selected>Position auswählen...</option>
+                      <option *ngFor="let position of allPositionen" [ngValue]="position">{{position.positionsname}}</option>
+                  </select>
+                  </div>
+
+                <div class="form-group was-validated" style="margin-bottom:20px">
+                    <p class="form-label">Kompetenzen</p>
+                    <span formArrayName="kompetenzen" *ngFor="let kompetenz of kompetenzen.controls; let i = index" required [class.is-invalid]="kompetenzen.invalid">
+                      <input type="checkbox" [formControlName]="i"  class="btn-check" id="{{allKompetenzen[i].kompetenzname}}" autocomplete="off" (change)="onSubmit()">
+                      <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}" style="margin:0px 2.5px 5px 2.5px" >{{allKompetenzen[i].kompetenzname}}</label>
+                    </span>
+
+                </div>
+
+                <button type="submit" class="btn btn-success" (click)="onSubmit()">Hinzufügen</button>
+                <button type="button" class="btn btn-danger" style="margin-left: 20px;" (click)="resetForm()">zurücksetzen</button>
+            </form>
+        </div>
+        </div>
+
+    </div>
+
+    </div>
+    <div class="col-md-9 col-12" [hidden]="!showresults">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Kursname</th>
+                <th scope="col">Kompetenzen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let kurs of kurseFilters" class="cursorPointer" routerLink="/kursdetail/{{kurs.id}}">
+                <td>{{kurs.kursname}}</td>
+                <td>
+                    <ul class="list-group list-group-flush">
+                        <div *ngFor="let kurskompetenz of kurs.kurskompetenzen_erlerndend">
+                        <li class="list-group-item" *ngIf="checkAusgewaehlt(kurskompetenz)" id="ausgewaehlt">{{kurskompetenz.kompetenzname}}</li>
+                        <li class="list-group-item" *ngIf="!checkAusgewaehlt(kurskompetenz)" >{{kurskompetenz.kompetenzname}}</li>
+                    </div>
+                </ul></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

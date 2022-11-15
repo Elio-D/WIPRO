@@ -1,0 +1,146 @@
+<app-admin-header></app-admin-header>
+
+    <div [hidden]="kursBearbeitet" class="container w-50 py-5 h-100">
+                <h1 style="margin-bottom: 40px;">Neuen Kurs hinzufügen</h1>
+                <form [formGroup]="kursEditForm" #form="ngForm">
+       
+                  <div class="form-group was-validated" style="margin-bottom:20px">
+                    <label [hidden]="!itemGetsEdited" for="kursname" class="form-label">Name des Kurses</label>
+                    <label [hidden]="itemGetsEdited" for="kursname" class="form-label"><strong>Name des Kurses</strong></label>
+                    <p [hidden]="itemGetsEdited" class="card-text">{{kurs.kursname}}</p>
+                    <input [hidden]="!itemGetsEdited" type="text" id="kursname" name="kursname" formControlName="kursname" placeholder="Name des Kurses hier eingeben" required minlength="2" maxlength="100" class="form-control" 
+                    [class.is-invalid]="kursname.invalid && (kursname.dirty || kursname.touched)">
+                    <div *ngIf="kursname.invalid && (kursname.dirty || kursname.touched)" class="invalid-feedback">
+                      <div *ngIf="kursname.errors?.['required']">
+                        Das Feld muss ausgefüllt werden.
+                      </div>
+                      <div *ngIf="kursname.errors?.['minlength']">
+                        Es müssen mindestens 2 Zeichen vorhanden sein.
+                      </div>
+                      <div *ngIf="kursname.errors?.['maxlength']">
+                        Es dürfen maximal 100 Zeichen verwendet werden.
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="form-group was-validated" style="margin-bottom:20px">
+                    <label [hidden]="!itemGetsEdited" for="kursbeschreibung" class="form-label">Kursbeschreibung</label>
+                    <label [hidden]="itemGetsEdited" for="kursbeschreibung" class="form-label"><strong>Kursbeschreibung</strong></label>
+                    <p [hidden]="itemGetsEdited" class="card-text">{{kurs.kursbeschreibung}}</p>
+                    <textarea [hidden]="!itemGetsEdited" id="kursbeschreibung" name="kursbeschreibung" formControlName="kursbeschreibung" placeholder="Kurze Kursbeschreibung" required minlength="1" maxlength="1000" class="form-control" 
+                    [class.is-invalid]="kursbeschreibung.invalid && (kursbeschreibung.dirty || kursbeschreibung.touched)"></textarea>
+                    <div *ngIf="kursbeschreibung.invalid && (kursbeschreibung.dirty || kursbeschreibung.touched)" class="invalid-feedback">
+                      <div *ngIf="kursbeschreibung.errors?.['required']">
+                        Das Feld muss ausgefüllt werden.
+                        </div>
+                        <div *ngIf="kursbeschreibung.errors?.['minlength']">
+                          Es müssen mindestens 1 Zeichen vorhanden sein.
+                        </div>
+                        <div *ngIf="kursbeschreibung.errors?.['maxlength']">
+                          Es dürfen maximal 1000 Zeichen verwendet werden.
+                        </div>
+                    </div>
+                  </div>
+               
+      
+                <div class="row">
+                  <div class="form-group was-validated col-10" style="margin-bottom:0px">
+                    <label [hidden]="!itemGetsEdited" for="kurskategorie" class="form-label">Kurskategorie</label>
+                    <label [hidden]="itemGetsEdited" for="kurskategorie" class="form-label"><strong>Kurskategorie</strong></label>
+                    <p [hidden]="itemGetsEdited" class="card-text">{{kurs.kurskategorie.kurskategoriename}}</p>
+                    <select [hidden]="!itemGetsEdited" id="kurskategorie" name="kurskategorie" formControlName="kurskategorie" class="form-select" [class.is-invalid]="kurskategorie.invalid">
+                      <option *ngFor="let kurskategorie of allKurskategorien">{{kurskategorie.kurskategoriename}}</option>
+                  </select>
+                  <div *ngIf="kurskategorie.invalid && (kurskategorie.dirty || kurskategorie.touched)" class="invalid-feedback">
+                    <div *ngIf="kurskategorie.errors?.['required']">
+                      Es muss eine Kategorie ausgewählt werden.
+                      </div>
+                  </div>
+                  </div>
+                  <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Kurskategorie" style="margin-top: 30px; margin-bottom:20px" class="btn btn-secondary col-2">Add</button>
+                </div>
+      
+                <div class="form-group was-validated" style="margin-bottom:20px">
+                  <p [hidden]="!itemGetsEdited" class="form-label">Vermittelte Kurskompetenzen</p>
+                  <p [hidden]="itemGetsEdited" class="form-label"><strong>Vermittelte Kurskompetenzen</strong></p>
+                  <ul [hidden]="itemGetsEdited" *ngFor="let kurskompetenz of this.kurs.kurskompetenzen_erlerndend">
+                    <li>{{kurskompetenz.kompetenzname}}</li>
+                  </ul>
+                    <span [hidden]="!itemGetsEdited" formArrayName="kurskompetenzen_erlerndend" *ngFor="let kompetenz of kurskompetenzen_erlerndend.controls; let i = index" required [class.is-invalid]="kurskompetenzen_erlerndend.invalid">
+                      <input type="checkbox" [formControlName]="i"  class="btn-check" id="{{allKompetenzen[i].kompetenzname}}" autocomplete="off" >
+                      <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}" style="margin:0px 2.5px 5px 2.5px">{{allKompetenzen[i].kompetenzname}}</label>
+                    </span><br [hidden]="!itemGetsEdited">
+                    <div *ngIf="kurskompetenzen_erlerndend.invalid" class="invalid-feedback">
+                      <div *ngIf="kurskompetenzen_erlerndend.errors?.['required']">
+                        Es muss mindestens eine Kompetenz ausgewählt werden.
+                        </div>
+                    </div>
+                    <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Kompetenz" style="margin-top:10px; margin-left:2.5px" class="btn btn-secondary col-2">Add</button>
+                    </div>
+                    
+      
+                    <div class="form-group was-validated" style="margin-bottom:20px">
+                      <label [hidden]="!itemGetsEdited" for="link" class="form-label">Link zum Anbieter</label>
+                      <label [hidden]="itemGetsEdited" for="link" class="form-label"><strong>Link zum Anbieter</strong></label>
+                      <p [hidden]="itemGetsEdited" class="card-text">{{kurs.link}}</p>
+                      <input [hidden]="!itemGetsEdited" type="text" id="link" name="link" formControlName="link" placeholder="Link" required minlength="2" maxlength="100" class="form-control" 
+                      [class.is-invalid]="link.invalid && (link.dirty || link.touched)">
+                      <div *ngIf="link.invalid && (link.dirty || link.touched)" class="invalid-feedback">
+                        <div *ngIf="link.errors?.['required']">
+                          Das Feld muss ausgefüllt werden.
+                        </div>
+                        <div *ngIf="link.errors?.['maxlength']">
+                          Es dürfen maximal 100 Zeichen verwendet werden.
+                        </div>
+                        <div *ngIf="link.errors?.['pattern']">
+                          Bitte eine korrekte URL eingeben. Z.B. https://www.google.ch
+                        </div>
+                      </div>
+                    </div>
+      
+                    <p [hidden]="controlFormChange()" class="text-danger">Es muss mindestens ein Feld angepasst werden</p>
+
+
+      <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="itemGetsEdited">zurück</button>
+      <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
+
+      <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;"class="btn btn-primary">Kurs bearbeiten</button>
+      <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit" class="btn btn-primary" [disabled]="!kursEditForm.valid" >Anpassung speichern</button>
+
+      <button class="btn btn-danger" [hidden]="itemGetsEdited"  data-bs-toggle="modal" data-bs-target="#exampleModal">Kurs löschen</button>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Kurs {{kurs.kursname}} <strong>löschen?</strong></h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Sind Sie sich sicher, dass Sie den Kurs <strong>{{kurs.kursname}}</strong> löschen möchten?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
+              <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Kurs löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </form>
+</div>
+
+
+<div [hidden]="!kursBearbeitet" class="container w-50 py-5 h-100">
+
+  <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+  <div class="form-group was-validated" style="margin-bottom:20px">
+      <p class="card-text">Der Kurs <strong>{{kurs.kursname}}</strong> wurde erfolgreich angepasst.</p>
+     
+  </div>
+
+     <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Okay, super</button>
+     <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>          
+</div>
+
+
+               

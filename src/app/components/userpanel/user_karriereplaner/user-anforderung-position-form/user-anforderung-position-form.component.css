@@ -1,0 +1,7 @@
+.cursorPointer {
+    cursor:pointer;
+}
+
+.list-group-item#ausgewaehlt {
+    --bs-list-group-bg: #FFBD00;
+}

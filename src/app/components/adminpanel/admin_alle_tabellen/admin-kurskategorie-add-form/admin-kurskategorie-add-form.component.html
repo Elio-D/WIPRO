@@ -1,0 +1,63 @@
+<app-admin-header></app-admin-header>
+
+    <div [hidden]="kurskategorieHinzugefuegt" class="container w-50 py-5 h-100">
+
+                <h1 style="margin-bottom: 40px;">Neue Kurskategorie hinzufügen</h1>
+                <form [formGroup]="kurskateogrieAddForm" #form="ngForm">
+
+                  <div class="form-group was-validated" style="margin-bottom:20px">
+                    <label for="kurskategoriename" class="form-label">Name der Kurskategorie</label>
+                    <input type="text" id="kurskategoriename" name="kurskategoriename" formControlName="kurskategoriename" placeholder="Name der Kurskategorie hier eingeben" required minlength="2" maxlength="100" class="form-control" 
+                    [class.is-invalid]="kurskategoriename.invalid && (kurskategoriename.dirty || kurskategoriename.touched)">
+                    <div *ngIf="kurskategoriename.invalid && (kurskategoriename.dirty || kurskategoriename.touched)" class="invalid-feedback">
+                      <div *ngIf="kurskategoriename.errors?.['required']">
+                        Das Feld muss ausgefüllt werden.
+                      </div>
+                      <div *ngIf="kurskategoriename.errors?.['minlength']">
+                        Es müssen mindestens 2 Zeichen vorhanden sein.
+                      </div>
+                      <div *ngIf="kurskategoriename.errors?.['maxlength']">
+                        Es dürfen maximal 100 Zeichen verwendet werden.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group was-validated col-12" style="margin-bottom:20px">
+                      <label for="spalte" class="form-label">Spalte</label>
+                      <select id="spalte" name="spalte" formControlName="spalte" required class="form-select" [class.is-invalid]="spalte.invalid">
+                        <option value="" disable hidden selected>Bitte eine Spalte auswählen...</option>
+                        <option *ngFor="let spalte of spalten">{{spalte}}</option>
+                    </select>
+                    <div *ngIf="spalte.invalid && (spalte.dirty || spalte.touched)" class="invalid-feedback">
+                      <div *ngIf="spalte.errors?.['required']">
+                        Es muss eine Spalte ausgewählt werden.
+                        </div>
+                    </div>
+                    </div>
+                   </div>
+
+
+                   <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;" [disabled]="!kurskateogrieAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
+                   <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;" (click)="kurskateogrieAddForm.reset()">zurücksetzen</button>
+                   <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
+      
+                </form>
+              </div>
+
+
+              <div [hidden]="!kurskategorieHinzugefuegt" class="container w-50 py-5 h-100">
+
+                <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+                <div class="form-group was-validated" style="margin-bottom:20px">
+                    <p class="card-text">Die Kurskategorie <strong>{{kurskategorie.kurskategoriename}}</strong> wurde erfolgreich hinzugefügt.</p>
+                   
+                </div>
+              
+                   <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Okay, super</button>
+                   <button type="button" class="btn btn-primary" routerLink="/admin/edit_Kurskategorie/{{kurskategorie.id}}">Details ansehen</button>          
+              </div>
+              
+              
+                   
+   

@@ -1,0 +1,108 @@
+<app-admin-header></app-admin-header>
+
+    <div [hidden]="kursHinzugefuegt" class="container w-50 py-5 h-100">
+                <h1 style="margin-bottom: 40px;">Neuen Kurs hinzufügen</h1>
+                <form [formGroup]="kursAddForm" #form="ngForm">
+       
+                  <div class="form-group was-validated" style="margin-bottom:20px">
+                    <label for="kursname" class="form-label">Kursname</label>
+                    <input type="text" id="kursname" name="kursname" formControlName="kursname" placeholder="Name des Kurses hier eingeben" required minlength="2" maxlength="100" class="form-control" 
+                    [class.is-invalid]="kursname.invalid && (kursname.dirty || kursname.touched)">
+                    <div *ngIf="kursname.invalid && (kursname.dirty || kursname.touched)" class="invalid-feedback">
+                      <div *ngIf="kursname.errors?.['required']">
+                        Das Feld muss ausgefüllt werden.
+                      </div>
+                      <div *ngIf="kursname.errors?.['minlength']">
+                        Es müssen mindestens 2 Zeichen vorhanden sein.
+                      </div>
+                      <div *ngIf="kursname.errors?.['maxlength']">
+                        Es dürfen maximal 100 Zeichen verwendet werden.
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="form-group was-validated" style="margin-bottom:20px">
+                    <label for="kursbeschreibung" class="form-label">Kursbeschreibung:</label>
+                    <textarea id="kursbeschreibung" name="kursbeschreibung" formControlName="kursbeschreibung" placeholder="Kurze Kursbeschreibung" required minlength="1" maxlength="1000" class="form-control" 
+                    [class.is-invalid]="kursbeschreibung.invalid && (kursbeschreibung.dirty || kursbeschreibung.touched)"></textarea>
+                    <div *ngIf="kursbeschreibung.invalid && (kursbeschreibung.dirty || kursbeschreibung.touched)" class="invalid-feedback">
+                      <div *ngIf="kursbeschreibung.errors?.['required']">
+                        Das Feld muss ausgefüllt werden.
+                        </div>
+                        <div *ngIf="kursbeschreibung.errors?.['minlength']">
+                          Es müssen mindestens 1 Zeichen vorhanden sein.
+                        </div>
+                        <div *ngIf="kursbeschreibung.errors?.['maxlength']">
+                          Es dürfen maximal 1000 Zeichen verwendet werden.
+                        </div>
+                    </div>
+                  </div>
+               
+      
+                <div class="row">
+                  <div class="form-group was-validated col-10" style="margin-bottom:20px">
+                    <label for="kurskategorie" class="form-label">Kurskategorie</label>
+                    <select id="kurskategorie" name="kurskategorie" formControlName="kurskategorie" required class="form-select" [class.is-invalid]="kurskategorie.invalid">
+                      <option value="" selected hidden>Bitte eine Kurskategorie auswählen</option>
+                      <option *ngFor="let kurskategorie of allKurskategorien">{{kurskategorie.kurskategoriename}}</option>
+                  </select>
+                  <div *ngIf="kurskategorie.invalid && (kurskategorie.dirty || kurskategorie.touched)" class="invalid-feedback">
+                    <div *ngIf="kurskategorie.errors?.['required']">
+                      Es muss eine Kategorie ausgewählt werden.
+                      </div>
+                  </div>
+                  </div>
+                  <button routerLink="/admin/add_Kurskategorie" style="margin-top: 30px; margin-bottom:20px" class="btn btn-secondary col-2">Add</button>
+                </div>
+      
+                <div class="form-group was-validated" style="margin-bottom:20px">
+                  <p class="form-label">Vermittelte Kurskompetenzen</p>
+                    <span formArrayName="kurskompetenzen_erlerndend" *ngFor="let kompetenz of kurskompetenzen_erlerndend.controls; let i = index" required [class.is-invalid]="kurskompetenzen_erlerndend.invalid">
+                      <input type="checkbox" [formControlName]="i"  class="btn-check" id="{{allKompetenzen[i].kompetenzname}}" autocomplete="off" >
+                      <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}" style="margin:0px 2.5px 5px 2.5px">{{allKompetenzen[i].kompetenzname}}</label>
+                    </span><br>
+                    <div *ngIf="kurskompetenzen_erlerndend.invalid" class="invalid-feedback">
+                      <div *ngIf="kurskompetenzen_erlerndend.errors?.['required']">
+                        Es muss mindestens eine Kompetenz ausgewählt werden.
+                        </div>
+                    </div>
+                    <button routerLink="/admin/add_Kompetenz" style="margin-top:10px; margin-left:2.5px" class="btn btn-secondary col-2">Add</button>
+                    </div>
+                    
+      
+                    <div class="form-group was-validated" style="margin-bottom:20px">
+                      <label for="link" class="form-label">Link zum Anbieter</label>
+                      <input type="text" id="link" name="link" formControlName="link" placeholder="Link" required minlength="2" maxlength="100" class="form-control" 
+                      [class.is-invalid]="link.invalid && (link.dirty || link.touched)">
+                      <div *ngIf="link.invalid && (link.dirty || link.touched)" class="invalid-feedback">
+                        <div *ngIf="link.errors?.['required']">
+                          Das Feld muss ausgefüllt werden.
+                        </div>
+                        <div *ngIf="link.errors?.['pattern']">
+                          Bitte eine korrekte URL eingeben. Z.B. https://www.google.ch
+                        </div>
+                        <div *ngIf="link.errors?.['maxlength']">
+                          Es dürfen maximal 100 Zeichen verwendet werden.
+                        </div>
+                      </div>
+                    </div>
+      
+                  
+                  
+                  <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;" [disabled]="!kursAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
+                  <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;" (click)="kursAddForm.reset()">zurücksetzen</button>
+                  <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
+                  </form>
+              </div>
+
+              <div [hidden]="!kursHinzugefuegt" class="container w-50 py-5 h-100">
+                <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+                <div class="form-group was-validated" style="margin-bottom:20px">
+                    <p class="card-text">Der Kurs <strong>{{kurs.kursname}}</strong> wurde erfolgreich hinzugefügt.</p>
+                   
+                </div>
+              
+                   <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Zur Adminstartseite</button>
+                   <button type="button" class="btn btn-primary" routerLink="/admin/edit_Kurs/{{kurs.id}}">Details ansehen</button>          
+              
+      </div>

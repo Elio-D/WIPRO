@@ -1,0 +1,97 @@
+<app-admin-header></app-admin-header>
+<div [hidden]="positionHinzugefuegt" class="container w-50 py-5 h-100">
+    <h1 style="margin-bottom: 40px;">Neue Position hinzufügen</h1>
+        <form [formGroup]="positionAddForm" #form="ngForm">
+       
+            <div class="form-group was-validated" style="margin-bottom:20px">
+              <label for="positionsname" class="form-label">Positionsname</label>
+              <input type="text" id="positionsname" name="positionsname" formControlName="positionsname" placeholder="Positionsname" required minlength="2" maxlength="100" class="form-control" 
+              [class.is-invalid]="positionsname.invalid && (positionsname.dirty || positionsname.touched)">
+              <div *ngIf="positionsname.invalid && (positionsname.dirty || positionsname.touched)" class="invalid-feedback">
+                <div *ngIf="positionsname.errors?.['required']">
+                  Das Feld muss ausgefüllt werden.
+                </div>
+                <div *ngIf="positionsname.errors?.['minlength']">
+                  Es müssen mindestens 2 Zeichen vorhanden sein.
+                </div>
+                <div *ngIf="positionsname.errors?.['maxlength']">
+                  Es dürfen maximal 100 Zeichen verwendet werden.
+                </div>
+              </div>
+            </div>
+          
+            <div class="form-group was-validated" style="margin-bottom:20px">
+              <label for="positionsbeschreibung" class="form-label">Positionsbeschreibung:</label>
+              <textarea id="positionsbeschreibung" name="positionsbeschreibung" formControlName="positionsbeschreibung" placeholder="Positionsbeschreibung" required minlength="1" maxlength="1000" class="form-control" [class.is-invalid]="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)"></textarea>
+              <div *ngIf="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)" class="invalid-feedback">
+                <div *ngIf="positionsbeschreibung.errors?.['required']">
+                  Das Feld muss ausgefüllt werden.
+                  </div>
+                  <div *ngIf="positionsbeschreibung.errors?.['minlength']">
+                    Es müssen mindestens 2 Zeichen vorhanden sein.
+                  </div>
+                  <div *ngIf="positionsbeschreibung.errors?.['maxlength']">
+                    Es dürfen maximal 1000 Zeichen verwendet werden.
+                  </div>
+              </div>
+            </div>
+         
+
+          <div class="row">
+            <div class="form-group was-validated col-10" style="margin-bottom:20px">
+              <label for="positionskategorie" class="form-label">Positionskategorie</label>
+              <select id="positionskategorie" name="positionskategorie" formControlName="positionskategorie" required class="form-select" [class.is-invalid]="positionskategorie.invalid">
+                <option value="" selected hidden>Bitte eine Kategorie auswählen</option>
+                <option *ngFor="let positionskategorie of allPositionskategorien">{{positionskategorie.positionskategoriename}}</option>
+            </select>
+            <div *ngIf="positionskategorie.invalid && (positionskategorie.dirty || positionskategorie.touched)" class="invalid-feedback">
+              <div *ngIf="positionskategorie.errors?.['required']">
+                Es muss eine Kategorie ausgewählt werden.
+                </div>
+            </div>
+            </div>
+            <button routerLink="/admin/add_Positionskategorie" style="margin-top: 30px; margin-bottom:20px" class="btn btn-secondary col-2">Add</button>
+          </div>
+
+          <div class="form-group was-validated" style="margin-bottom:20px">
+            <p class="form-label">Positionskompetenzen</p>
+              <span formArrayName="positionskompetenzen" *ngFor="let kompetenz of positionskompetenzen.controls; let i = index" required [class.is-invalid]="positionskompetenzen.invalid">
+                <input type="checkbox" [formControlName]="i"  class="btn-check" id="{{allKompetenzen[i].kompetenzname}}" autocomplete="off" >
+                <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}" style="margin:0px 2.5px 5px 2.5px">{{allKompetenzen[i].kompetenzname}}</label>
+              </span><br>
+              <div *ngIf="positionskompetenzen.invalid" class="invalid-feedback">
+                <div *ngIf="positionskompetenzen.errors?.['required']">
+                  Es muss mindestens eine Kompetenz ausgewählt werden.
+                  </div>
+              </div>
+              <button routerLink="/admin/add_Positionskategorie" style="margin-top:10px; margin-left:2.5px" class="btn btn-secondary col-2">Add</button>
+              
+              
+
+               </div>
+          <p class="form-label">Position passt zur Branche:</p>
+              <div class="form-check form-switch">
+                <input class="form-check-input" formControlName="passend_zu_branche" type="checkbox" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Ja</label>
+              </div>
+
+            
+            
+            <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;" [disabled]="!positionAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
+            <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;" (click)="positionAddForm.reset()">zurücksetzen</button>
+            <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
+        </form>
+      </div>
+
+      <div [hidden]="!positionHinzugefuegt" class="container w-50 py-5 h-100">
+        <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+        <div class="form-group was-validated" style="margin-bottom:20px">
+            <p class="card-text">Die Position <strong>{{position.positionsname}}</strong> wurde erfolgreich hinzugefügt.</p>
+           
+        </div>
+      
+           <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Zur Adminstartseite</button>
+           <button type="button" class="btn btn-primary" routerLink="/admin/edit_Position/{{position.id}}">Details ansehen</button>          
+      
+</div>
+  
