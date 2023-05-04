@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { PositionenService } from 'src/app/services/positionen.service';
+
 import { Position } from 'src/app/interfaces/position';
 import { Kompetenz } from 'src/app/interfaces/kompetenz';
 
@@ -26,6 +27,9 @@ export class UserPositionsdetailComponent implements OnInit {
     this.getData()
   }
 
+  /**
+  * (Nächste zwei Methoden) Holen alle Positionsinformation per ID der Position via Positionsservice
+  */
   getData(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.positionenService.getPositionByID(id)
@@ -39,6 +43,9 @@ export class UserPositionsdetailComponent implements OnInit {
     this.positionskompetenzen = this.position?.positionskompetenzen;
   }
 
+  /**
+  * Die vorherige Seite wird aufgerufen
+  */
   goBack(): void {
     this.location.back();
   }

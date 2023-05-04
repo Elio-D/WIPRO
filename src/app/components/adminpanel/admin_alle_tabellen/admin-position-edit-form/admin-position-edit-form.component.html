@@ -1,128 +1,152 @@
 <app-admin-header></app-admin-header>
+
 <div [hidden]="positionBearbeitet" class="container w-50 py-5 h-100">
-    <h1 style="margin-bottom: 40px;">Neue Position hinzufügen</h1>
-        <form [formGroup]="positionEditForm" #form="ngForm">
-       
-            <div class="form-group was-validated" style="margin-bottom:20px">
-                <label [hidden]="!itemGetsEdited" for="positionsname" class="form-label">Name der Position</label>
-                <label [hidden]="itemGetsEdited" for="positionsname" class="form-label"><strong>Name der Position</strong></label>
-                <p [hidden]="itemGetsEdited" class="card-text">{{position.positionsname}}</p>
-              <input [hidden]="!itemGetsEdited" type="text" id="positionsname" name="positionsname" formControlName="positionsname" placeholder="Positionsname" required minlength="2" maxlength="100" class="form-control" 
-              [class.is-invalid]="positionsname.invalid && (positionsname.dirty || positionsname.touched)">
-              <div *ngIf="positionsname.invalid && (positionsname.dirty || positionsname.touched)" class="invalid-feedback">
-                <div *ngIf="positionsname.errors?.['required']">
-                  Das Feld muss ausgefüllt werden.
-                </div>
-                <div *ngIf="positionsname.errors?.['minlength']">
-                  Es müssen mindestens 2 Zeichen vorhanden sein.
-                </div>
-                <div *ngIf="positionsname.errors?.['maxlength']">
-                  Es dürfen maximal 100 Zeichen verwendet werden.
-                </div>
-              </div>
-            </div>
-          
-            <div class="form-group was-validated" style="margin-bottom:20px">
-                <label [hidden]="!itemGetsEdited" for="kursbeschreibung" class="form-label">Positionsbeschreibung</label>
-                <label [hidden]="itemGetsEdited" for="kursbeschreibung" class="form-label"><strong>Positionsbeschreibung</strong></label>
-                <p [hidden]="itemGetsEdited" class="card-text">{{position.positionsbeschreibung}}</p>
-              <textarea [hidden]="!itemGetsEdited" id="positionsbeschreibung" name="positionsbeschreibung" formControlName="positionsbeschreibung" placeholder="Positionsbeschreibung" required minlength="1" maxlength="1000" class="form-control" [class.is-invalid]="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)"></textarea>
-              <div *ngIf="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)" class="invalid-feedback">
-                <div *ngIf="positionsbeschreibung.errors?.['required']">
-                  Das Feld muss ausgefüllt werden.
-                  </div>
-                  <div *ngIf="positionsbeschreibung.errors?.['minlength']">
-                    Es müssen mindestens 2 Zeichen vorhanden sein.
-                  </div>
-                  <div *ngIf="positionsbeschreibung.errors?.['maxlength']">
-                    Es dürfen maximal 1000 Zeichen verwendet werden.
-                  </div>
-              </div>
-            </div>
-         
-            <div class="row">
-                <div class="form-group was-validated col-10" style="margin-bottom:0px">
-                  <label [hidden]="!itemGetsEdited" for="positionskategorie" class="form-label">Positionskategorie</label>
-                  <label [hidden]="itemGetsEdited" for="positionskategorie" class="form-label"><strong>Positionskategorie</strong></label>
-                  <p [hidden]="itemGetsEdited" class="card-text">{{position.positionskategorie.positionskategoriename}}</p>
-                  <select [hidden]="!itemGetsEdited" id="positionskategorie" name="positionskategorie" formControlName="positionskategorie" class="form-select" [class.is-invalid]="positionskategorie.invalid">
-                    <option *ngFor="let positionskategorie of allPositionskategorien">{{positionskategorie.positionskategoriename}}</option>
-                </select>
-                <div *ngIf="positionskategorie.invalid && (positionskategorie.dirty || positionskategorie.touched)" class="invalid-feedback">
-                  <div *ngIf="positionskategorie.errors?.['required']">
-                    Es muss eine Kategorie ausgewählt werden.
-                    </div>
-                </div>
-                </div>
-                <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Positionskategorie" style="margin-top: 30px; margin-bottom:20px" class="btn btn-secondary col-2">Add</button>
-              </div>
 
-              <div class="form-group was-validated" style="margin-bottom:20px">
-                <p [hidden]="!itemGetsEdited" class="form-label">Positionskompetenzen</p>
-                <p [hidden]="itemGetsEdited" class="form-label"><strong>Positionskompetenzen</strong></p>
-                <ul [hidden]="itemGetsEdited" *ngFor="let positionskompetenz of this.position.positionskompetenzen">
-                  <li>{{positionskompetenz.kompetenzname}}</li>
-                </ul>
-                  <span [hidden]="!itemGetsEdited" formArrayName="positionskompetenzen" *ngFor="let kompetenz of positionskompetenzen.controls; let i = index" required [class.is-invalid]="positionskompetenzen.invalid">
-                    <input type="checkbox" [formControlName]="i"  class="btn-check" id="{{allKompetenzen[i].kompetenzname}}" autocomplete="off" >
-                    <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}" style="margin:0px 2.5px 5px 2.5px">{{allKompetenzen[i].kompetenzname}}</label>
-                  </span><br [hidden]="!itemGetsEdited">
-                  <div *ngIf="positionskompetenzen.invalid" class="invalid-feedback">
-                    <div *ngIf="positionskompetenzen.errors?.['required']">
-                      Es muss mindestens eine Kompetenz ausgewählt werden.
-                      </div>
-                  </div>
-                  <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Kompetenz" style="margin-top:10px; margin-left:2.5px" class="btn btn-secondary col-2">Add</button>
-                  </div>
+  <h1 style="margin-bottom: 40px;">Neue Position hinzufügen</h1>
 
-                  
-          <p [hidden]="!itemGetsEdited" class="form-label">Position passt zur Branche</p>
-          <p [hidden]="itemGetsEdited" class="form-label"><strong>Position passt zur Branche</strong></p>
-          <p [hidden]="itemGetsEdited" class="card-text">{{showPassendZuBranche()}}</p>
-              <div [hidden]="!itemGetsEdited" class="form-check form-switch">
-                <input class="form-check-input" formControlName="passend_zu_branche" type="checkbox" id="flexSwitchCheckChecked" checked>
-                <label class="form-check-label" for="flexSwitchCheckChecked">Ja</label>
-              </div><br>
+  <form [formGroup]="positionEditForm" #form="ngForm">
 
-              <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="itemGetsEdited">zurück</button>
-              <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
-        
-              <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;"class="btn btn-primary">Position bearbeiten</button>
-              <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit" class="btn btn-primary" [disabled]="!positionEditForm.valid" >Anpassung speichern</button>
-        
-              <button class="btn btn-danger" [hidden]="itemGetsEdited"  data-bs-toggle="modal" data-bs-target="#exampleModal">Position löschen</button>
-        
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Kurs {{position.positionsname} <strong>löschen?</strong></h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      Sind Sie sich sicher, dass Sie den Kurs <strong>{{position.positionsname}}</strong> löschen möchten?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
-                      <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Kurs löschen</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-        
-        </form>
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <label [hidden]="!itemGetsEdited" for="positionsname" class="form-label">Name der Position</label>
+      <label [hidden]="itemGetsEdited" for="positionsname" class="form-label"><strong>Name der Position</strong></label>
+      <p [hidden]="itemGetsEdited" class="card-text">{{position.positionsname}}</p>
+      <input [hidden]="!itemGetsEdited" type="text" id="positionsname" name="positionsname"
+        formControlName="positionsname" placeholder="Positionsname" required minlength="2" maxlength="100"
+        class="form-control"
+        [class.is-invalid]="positionsname.invalid && (positionsname.dirty || positionsname.touched)">
+      <div *ngIf="positionsname.invalid && (positionsname.dirty || positionsname.touched)" class="invalid-feedback">
+        <div *ngIf="positionsname.errors?.['required']">
+          Das Feld muss ausgefüllt werden.
+        </div>
+        <div *ngIf="positionsname.errors?.['minlength']">
+          Es müssen mindestens 2 Zeichen vorhanden sein.
+        </div>
+        <div *ngIf="positionsname.errors?.['maxlength']">
+          Es dürfen maximal 100 Zeichen verwendet werden.
+        </div>
       </div>
+    </div>
 
-      <div [hidden]="!positionBearbeitet" class="container w-50 py-5 h-100">
-       
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <label [hidden]="!itemGetsEdited" for="kursbeschreibung" class="form-label">Positionsbeschreibung</label>
+      <label [hidden]="itemGetsEdited" for="kursbeschreibung"
+        class="form-label"><strong>Positionsbeschreibung</strong></label>
+      <p [hidden]="itemGetsEdited" class="card-text">{{position.positionsbeschreibung}}</p>
+      <textarea [hidden]="!itemGetsEdited" id="positionsbeschreibung" name="positionsbeschreibung"
+        formControlName="positionsbeschreibung" placeholder="Positionsbeschreibung" required minlength="1"
+        maxlength="1000" class="form-control"
+        [class.is-invalid]="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)"></textarea>
+      <div *ngIf="positionsbeschreibung.invalid && (positionsbeschreibung.dirty || positionsbeschreibung.touched)"
+        class="invalid-feedback">
+        <div *ngIf="positionsbeschreibung.errors?.['required']">
+          Das Feld muss ausgefüllt werden.
+        </div>
+        <div *ngIf="positionsbeschreibung.errors?.['minlength']">
+          Es müssen mindestens 2 Zeichen vorhanden sein.
+        </div>
+        <div *ngIf="positionsbeschreibung.errors?.['maxlength']">
+          Es dürfen maximal 1000 Zeichen verwendet werden.
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group was-validated col-10" style="margin-bottom:0px">
+        <label [hidden]="!itemGetsEdited" for="positionskategorie" class="form-label">Positionskategorie</label>
+        <label [hidden]="itemGetsEdited" for="positionskategorie"
+          class="form-label"><strong>Positionskategorie</strong></label>
+        <p [hidden]="itemGetsEdited" class="card-text">{{position.positionskategorie.positionskategoriename}}</p>
+        <select [hidden]="!itemGetsEdited" id="positionskategorie" name="positionskategorie"
+          formControlName="positionskategorie" class="form-select" [class.is-invalid]="positionskategorie.invalid">
+          <option *ngFor="let positionskategorie of allPositionskategorien">
+            {{positionskategorie.positionskategoriename}}</option>
+        </select>
+        <div *ngIf="positionskategorie.invalid && (positionskategorie.dirty || positionskategorie.touched)"
+          class="invalid-feedback">
+          <div *ngIf="positionskategorie.errors?.['required']">
+            Es muss eine Kategorie ausgewählt werden.
+          </div>
+        </div>
+      </div>
+      <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Positionskategorie"
+        style="margin-top: 30px; margin-bottom:20px" class="btn btn-secondary col-2">Add</button>
+    </div>
+
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <p [hidden]="!itemGetsEdited" class="form-label">Positionskompetenzen</p>
+      <p [hidden]="itemGetsEdited" class="form-label"><strong>Positionskompetenzen</strong></p>
+      <ul [hidden]="itemGetsEdited" *ngFor="let positionskompetenz of this.position.positionskompetenzen">
+        <li>{{positionskompetenz.kompetenzname}}</li>
+      </ul>
+      <span [hidden]="!itemGetsEdited" formArrayName="positionskompetenzen"
+        *ngFor="let kompetenz of positionskompetenzen.controls; let i = index" required
+        [class.is-invalid]="positionskompetenzen.invalid">
+        <input type="checkbox" [formControlName]="i" class="btn-check" id="{{allKompetenzen[i].kompetenzname}}"
+          autocomplete="off">
+        <label class="btn btn-outline-primary" for="{{allKompetenzen[i].kompetenzname}}"
+          style="margin:0px 2.5px 5px 2.5px">{{allKompetenzen[i].kompetenzname}}</label>
+      </span><br [hidden]="!itemGetsEdited">
+      <div *ngIf="positionskompetenzen.invalid" class="invalid-feedback">
+        <div *ngIf="positionskompetenzen.errors?.['required']">
+          Es muss mindestens eine Kompetenz ausgewählt werden.
+        </div>
+      </div>
+      <button [hidden]="!itemGetsEdited" routerLink="/admin/add_Kompetenz" style="margin-top:10px; margin-left:2.5px"
+        class="btn btn-secondary col-2">Add</button>
+    </div>
+
+
+    <p [hidden]="!itemGetsEdited" class="form-label">Position passt zur Branche</p>
+    <p [hidden]="itemGetsEdited" class="form-label"><strong>Position passt zur Branche</strong></p>
+    <p [hidden]="itemGetsEdited" class="card-text">{{showPassendZuBranche()}}</p>
+    <div [hidden]="!itemGetsEdited" class="form-check form-switch">
+      <input class="form-check-input" formControlName="passend_zu_branche" type="checkbox" id="flexSwitchCheckChecked"
+        checked>
+      <label class="form-check-label" for="flexSwitchCheckChecked">Ja</label>
+    </div><br>
+
+    <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="itemGetsEdited">zurück</button>
+    <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
+
+    <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;" class="btn btn-primary">Position
+      bearbeiten</button>
+    <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit"
+      class="btn btn-primary" [disabled]="!positionEditForm.valid">Anpassung speichern</button>
+
+    <button class="btn btn-danger" [hidden]="itemGetsEdited" data-bs-toggle="modal"
+      data-bs-target="#exampleModal">Position löschen</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Position <strong>{{position.positionsname}}</strong>
+              löschen?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Sind Sie sich sicher, dass Sie die Position <strong>{{position.positionsname}}</strong> löschen möchten?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
+            <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Position
+              löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+<div [hidden]="!positionBearbeitet" class="container w-50 py-5 h-100">
   <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
   <div class="form-group was-validated" style="margin-bottom:20px">
-      <p class="card-text">Die Position <strong>{{position.positionsname}}</strong> wurde erfolgreich angepasst.</p>
-     
+    <p class="card-text">Die Position <strong>{{position.positionsname}}</strong> wurde erfolgreich angepasst.</p>
   </div>
-
-     <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Okay, super</button>
-     <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>          
+  <button type="button" class="btn btn-secondary" style="margin-right: 20px;" (click)="goBack()">Okay, super</button>
+  <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>
 </div>
-  

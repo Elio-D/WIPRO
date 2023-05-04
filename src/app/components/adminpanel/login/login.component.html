@@ -1,31 +1,59 @@
 <app-user-header></app-user-header>
 <section class="vh-100" style="background-color: #508bfc;">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
-  
-              <h3 class="mb-5">Login</h3>
-  
-              <div class="form-floating mb-4">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Login</h3>
+
+            <form [formGroup]="loginForm" #form="ngForm">
+              <div class="form-floating mb-4 was-validated">
+                <input type="text" class="form-control" id="floatingInput" placeholder="benutzername"
+                  formControlName="Username" required minlength="2" maxlength="100" class="form-control"
+                  [class.is-invalid]="Username.invalid && (Username.dirty || Username.touched)">
+                <label for="floatingInput">Benutzername eingeben</label>
+                <div *ngIf="Username.invalid && (Username.dirty || Username.touched)" class="invalid-feedback">
+                  <div *ngIf="Username.errors?.['required']">
+                    Das Feld muss ausgefüllt werden.
+                  </div>
+                  <div *ngIf="Username.errors?.['minlength']">
+                    Es müssen mindestens 2 Zeichen vorhanden sein.
+                  </div>
+                  <div *ngIf="Username.errors?.['maxlength']">
+                    Es dürfen maximal 100 Zeichen verwendet werden.
+                  </div>
+                </div>
               </div>
-  
-              <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-              </div><br>
-  
-  
-              <button class="btn btn-primary btn-lg btn-block" type="submit" routerLink="/admin">Login</button>
-  
-            </div>
+
+              <div class="form-floating mb-4 was-validated">
+                <input type="password" class="form-control" id="floatingInput" placeholder="Password"
+                  formControlName="Password" required minlength="2" maxlength="100" class="form-control"
+                  [class.is-invalid]="Password.invalid && (Password.dirty || Password.touched)">
+                <label for="floatingInput">Passwort eingeben</label>
+                <div *ngIf="Password.invalid && (Password.dirty || Password.touched)" class="invalid-feedback">
+                  <div *ngIf="Password.errors?.['required']">
+                    Das Feld muss ausgefüllt werden.
+                  </div>
+                  <div *ngIf="Password.errors?.['minlength']">
+                    Es müssen mindestens 2 Zeichen vorhanden sein.
+                  </div>
+                  <div *ngIf="Password.errors?.['maxlength']">
+                    Es dürfen maximal 100 Zeichen verwendet werden.
+                  </div>
+                </div>
+              </div>
+              <p [hidden]="checkuserOrPasswordIncorrectError()" class="text-danger">Benutzername oder Passwort ist
+                falsch</p>
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="!loginForm.valid"
+                (click)="onSubmit()">Login</button>
+            </form>
+
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-  
+  </div>
+</section>

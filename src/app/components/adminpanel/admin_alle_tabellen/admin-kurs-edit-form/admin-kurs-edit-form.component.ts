@@ -36,7 +36,7 @@ export class AdminKursEditFormComponent implements OnInit {
   itemGetsEdited = false;
   FormHasChanged = true;
 
-  kursBearbeitet  = false;
+  kursBearbeitet = false;
 
   allkurse: Kurs[] = [];
   allKurskategorien: Kurskategorie[] = [{ "id": -1, "spalte": 0, "kurskategoriename": "" }];
@@ -54,9 +54,9 @@ export class AdminKursEditFormComponent implements OnInit {
         "id": -1,
         "spalte": 0,
         "kurskategoriename": ""
-    }
+      }
     } as Kurs;
-   }
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -79,7 +79,7 @@ export class AdminKursEditFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.pattern(this.reg),
-        Validators.maxLength(100),        
+        Validators.maxLength(100),
       ]),
     });
   }
@@ -104,29 +104,35 @@ export class AdminKursEditFormComponent implements OnInit {
     return this.kursEditForm.get('link')!;
   }
 
+  /**
+  * Fügt zu jeder Kompetenz eine Checkbox für das Formular hinzu. 
+  * In Form eines neuen FormControls. Falls die Kompetenz bereits ausgewählt wurde, ist True hinterlegt
+  */
   private addCheckboxes() {
     this.kurskompetenzen_erlerndend.clear();
     this.allKompetenzen.forEach((kompetenzAllKompetenzen) => {
-    if (this.kurs.kurskompetenzen_erlerndend.some(kompetenz => kompetenz.id === kompetenzAllKompetenzen.id)) {
-      this.kurskompetenzen_erlerndend.push(new FormControl(true))
-    } else {
-      this.kurskompetenzen_erlerndend.push(new FormControl(false));
-    }
+      if (this.kurs.kurskompetenzen_erlerndend.some(kompetenz => kompetenz.id === kompetenzAllKompetenzen.id)) {
+        this.kurskompetenzen_erlerndend.push(new FormControl(true))
+      } else {
+        this.kurskompetenzen_erlerndend.push(new FormControl(false));
+      }
     });
   }
 
+  /**
+  * Holt alle Kurse, Kurskategorien und Kompetenzen via Kurs- und Kompetenzenservice
+  * Zusätzlich wird der spezifische Kurs, welche bearbeitet wird via ID in der URL geholt und
+  * das Edit-Formular anhand dieser Position initialisiert
+  */
   getData() {
-    this.kursService.getAllKurse().subscribe(kurse => this.allkurse = kurse); 
-    this.kursService.getAllKurskategorien().subscribe(kurskategorie => this.allKurskategorien = kurskategorie); 
-    this.komptenzenService.getAllKompetenzen().subscribe((kompetenzen) =>  {
+    this.kursService.getAllKurse().subscribe(kurse => this.allkurse = kurse);
+    this.kursService.getAllKurskategorien().subscribe(kurskategorie => this.allKurskategorien = kurskategorie);
+    this.komptenzenService.getAllKompetenzen().subscribe((kompetenzen) => {
       this.allKompetenzen = kompetenzen
-      console.log("alle Kompetenezn:" + this.allKompetenzen)
-    }); 
+    });
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.kursService.getKursByID(id).subscribe((kurs) => {
       this.kurs = kurs
-      console.log(this.kurs)
-      console.log("kurs:" + this.kurs.kurskompetenzen_erlerndend)
       this.kursEditForm = new FormGroup({
         kursname: new FormControl(this.kurs.kursname, [
           Validators.required,
@@ -149,37 +155,52 @@ export class AdminKursEditFormComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       });
-      this.addCheckboxes();  
-      
     });
   }
 
-  controlFormChange(){
-    if(this.itemGetsEdited && this.FormHasChanged){
+  /**
+  * Steuerung für Fehlermeldung, falls kein Element angepasst wurde
+  * @returns True, wenn Kategorie angepasst wurde, False falls nichts angepasst wurde
+  */
+  controlFormChange() {
+    if (this.itemGetsEdited && this.FormHasChanged) {
       return true
-    } else if (this.itemGetsEdited && !this.FormHasChanged){
+    } else if (this.itemGetsEdited && !this.FormHasChanged) {
       return false
     } else {
       return true
     }
-    
   }
 
+  /**
+  * Geht zur Adminseite zurück
+  */
   goBack(): void {
-    this.router.navigate([`/admin`], { relativeTo: this.route });
+    this.location.back();
   }
 
+  /**
+  * Lädt die Seite neu
+  */
   reload(): void {
     window.location.reload()
   }
 
+  /**
+  * Löscht den entsprechenden Kurs per ID
+  * und navigiert zur Adminseite
+  */
   deleteItem(): void {
-    console.log("Position wurde gelöscht");
-    //this.kursService.deleteKurs(this.kurs.id).subscribe();
+    this.kursService.deleteKurs(this.kurs.id).subscribe();
     this.router.navigate([`/admin`], { relativeTo: this.route });
   }
 
+  /**
+  * (Nächste zwei Methoden) Steuern darstellung des Editformulars
+  * Werden ausgeführt wenn der Button "...bearbeten" oder "Bearbeitung abbrechen" betätigt werden
+  */
   editItem(): void {
+    this.addCheckboxes();
     this.itemGetsEdited = true;
     this.FormHasChanged = true;
   }
@@ -189,57 +210,61 @@ export class AdminKursEditFormComponent implements OnInit {
     this.FormHasChanged = false;
   }
 
+  /**
+  * Kontrolliert ob ausgewählte Kompetenzen gleich wie initiale Kompetenzen sind
+  * @returns true falls gleicher string, false falls nicht
+  */
   kompetenzenGleich(): boolean {
     const kForm = JSON.stringify(this.kursEditForm.value.kurskompetenzen_erlerndend);
-    console.log(kForm)
     const kKurs = JSON.stringify(this.kurs.kurskompetenzen_erlerndend);
-    if(kForm == kKurs) {
+    if (kForm == kKurs) {
       return true;
     } else {
       return false;
     }
   }
-  
 
-  onSubmit() { 
+  /**
+  * Parst Daten (Kurskategorie & Kompetenzen) aus dem Formular in Objecte für die Datenabspeicherung um
+  * Überprüft ob eine Änderung an der Kategorie vorgenommen wurde
+  * Falls ja, wird der angepasste Kurs via Kursservice abgespeichert
+  */
+  onSubmit() {
     const selectedKurskategorie = this.kursEditForm.value.kurskategorie;
     this.kursEditForm.value.kurskategorie = this.allKurskategorien.find(kategorie => kategorie.kurskategoriename == selectedKurskategorie);
 
     const selectedKompetenzen = this.kursEditForm.value.kurskompetenzen_erlerndend;
     this.kursEditForm.value.kurskompetenzen_erlerndend = [];
-    selectedKompetenzen.forEach((element: boolean, index:number) => {
-      if(element == true) {
+    selectedKompetenzen.forEach((element: boolean, index: number) => {
+      if (element == true) {
         this.kursEditForm.value.kurskompetenzen_erlerndend.push(this.allKompetenzen[index])
       }
     });
-    
-    if(this.kurs.kursname == this.kursEditForm.value.kursname && 
-      this.kurs.kursbeschreibung == this.kursEditForm.value.kursbeschreibung && 
-      this.kurs.kurskategorie.kurskategoriename == this.kursEditForm.value.kurskategorie.kurskategoriename &&  
-      this.kompetenzenGleich() &&
-      this.kurs.link == this.kursEditForm.value.link){
-        this.FormHasChanged = false;  
-        console.log("haltstop")
-    } else {
-    this.kurs.kursname = this.kursEditForm.value.kursname;
-    this.kurs.kursbeschreibung = this.kursEditForm.value.kursbeschreibung;
-    this.kurs.kurskategorie = this.kursEditForm.value.kurskategorie;
-    this.kurs.kurskompetenzen_erlerndend = this.kursEditForm.value.kurskompetenzen_erlerndend;
-    this.kurs.link = this.kursEditForm.value.link;  
-    console.log(this.kurs);
-    
-    this.kursService.updateKurs(this.kurs).subscribe((data: any) => {
-      this.kursService.updateKursKat(this.kurs.id, this.kurs).subscribe((data1: any) => {
-        this.kursService.deleteKursKomp(this.kurs.id).subscribe((data: any) => {
-          this.kurs.kurskompetenzen_erlerndend.forEach(element => {
-            this.kursService.addKurs_Komp(element.id, this.kurs).subscribe((data1: any) =>{
 
+    if (this.kurs.kursname == this.kursEditForm.value.kursname &&
+      this.kurs.kursbeschreibung == this.kursEditForm.value.kursbeschreibung &&
+      this.kurs.kurskategorie.kurskategoriename == this.kursEditForm.value.kurskategorie.kurskategoriename &&
+      this.kompetenzenGleich() &&
+      this.kurs.link == this.kursEditForm.value.link) {
+      this.FormHasChanged = false;
+    } else {
+      this.kurs.kursname = this.kursEditForm.value.kursname;
+      this.kurs.kursbeschreibung = this.kursEditForm.value.kursbeschreibung;
+      this.kurs.kurskategorie = this.kursEditForm.value.kurskategorie;
+      this.kurs.kurskompetenzen_erlerndend = this.kursEditForm.value.kurskompetenzen_erlerndend;
+      this.kurs.link = this.kursEditForm.value.link;
+      this.kursService.updateKurs(this.kurs).subscribe((data: any) => {
+        this.kursService.updateKursKat(this.kurs.id, this.kurs).subscribe((data1: any) => {
+          this.kursService.deleteKursKomp(this.kurs.id).subscribe((data: any) => {
+            this.kurs.kurskompetenzen_erlerndend.forEach(element => {
+              this.kursService.addKurs_Komp(element.id, this.kurs).subscribe((data1: any) => {});
             });
           });
         });
+        this.kursBearbeitet = true;
       });
-      this.kursBearbeitet  = true;
-    });
+    }
+
   }
-  }
+
 }

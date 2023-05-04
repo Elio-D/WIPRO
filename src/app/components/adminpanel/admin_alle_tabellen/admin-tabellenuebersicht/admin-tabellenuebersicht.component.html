@@ -7,75 +7,134 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row row-cols">
 
-      <div class="col-md-3 col-12">
-        <h3 class="text-center p-3 titelTabelle" id="blue">Kompetenzen</h3>
-        <div class="list-group p-2">
-            <button routerLink="/admin/add_Kompetenz" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-            <a routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}" class="list-group-item list-group-item-action" *ngFor="let kompetenz of ersteKompetenzen">{{kompetenz.kompetenzname}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenKompetenzenKlicked()" [hidden]="!buttonMehrKompetenzenAnzeigen">Mehr Anzeigen</button>
-            <a routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}" class="list-group-item list-group-item-action" *ngFor="let kompetenz of alleAnderenKompetenzen" [hidden]="buttonMehrKompetenzenAnzeigen">{{kompetenz.kompetenzname}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenKompetenzenKlicked()" [hidden]="!buttonWenigerKompetenzenAnzeigen">Weniger Anzeigen</button>
-        </div>
+  <div class="row row-cols">
+
+    <div class="col-md-3 col-12">
+      <h3 class="text-center p-3 titelTabelle" id="blue">Kompetenzen</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/add_Kompetenz"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kompetenz of ersteKompetenzen">{{kompetenz.kompetenzname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenKompetenzenKlicked()" [hidden]="!buttonMehrKompetenzenAnzeigen">Mehr Anzeigen</button>
+        <a routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kompetenz of alleAnderenKompetenzen"
+          [hidden]="buttonMehrKompetenzenAnzeigen">{{kompetenz.kompetenzname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenKompetenzenKlicked()" [hidden]="!buttonWenigerKompetenzenAnzeigen">Weniger
+          Anzeigen</button>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+
+      <h3 class="text-center p-3 titelTabelle">Kurskategorien</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/add_Kurskategorie"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Kurskategorie/{{kurskategorie.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kurskategorie of ersteKurskategorien">{{kurskategorie.kurskategoriename}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenKurskategorienKlicked()" [hidden]="!buttonMehrKurskategorienAnzeigen">Mehr
+          Anzeigen</button>
+        <a routerLink="/admin/edit_Kurskategorie/{{kurskategorie.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kurskategorie of alleAnderenKurskategorien"
+          [hidden]="buttonMehrKurskategorienAnzeigen">{{kurskategorie.kurskategoriename}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenKurskategorienKlicked()" [hidden]="!buttonWenigerKurskategorienAnzeigen">Weniger
+          Anzeigen</button>
       </div>
 
-      <div class="col-md-3 col-12">
-        <h3 class="text-center p-3 titelTabelle">Kurskategorien</h3>
-        <div class="list-group p-2">
-            <button routerLink="/admin/add_Kurskategorie" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-            <a routerLink="/admin/edit_Kurskategorie/{{kurskategorie.id}}" class="list-group-item list-group-item-action" *ngFor="let kurskategorie of ersteKurskategorien">{{kurskategorie.kurskategoriename}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenKurskategorienKlicked()" [hidden]="!buttonMehrKurskategorienAnzeigen">Mehr Anzeigen</button>
-            <a routerLink="/admin/edit_Kurskategorie/{{kurskategorie.id}}" class="list-group-item list-group-item-action" *ngFor="let kurskategorie of alleAnderenKurskategorien" [hidden]="buttonMehrKurskategorienAnzeigen">{{kurskategorie.kurskategoriename}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenKurskategorienKlicked()" [hidden]="!buttonWenigerKurskategorienAnzeigen">Weniger Anzeigen</button>
-        </div>
-
-        <h3 class="text-center p-3 titelTabelle">Kurse</h3>
-        <div class="list-group p-2">
-          <button routerLink="/admin/add_Kurs" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-            <a routerLink="/admin/edit_Kurs/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of ersteKurse">{{kurs.kursname}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenKurseKlicked()" [hidden]="!buttonMehrKurseAnzeigen">Mehr Anzeigen</button>
-            <a routerLink="/admin/edit_Kurs/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of alleAnderenKurse" [hidden]="buttonMehrKurseAnzeigen">{{kurs.kursname}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenKurseKlicked()" [hidden]="!buttonWenigerKurseAnzeigen">Weniger Anzeigen</button>
-        </div>
+      <h3 class="text-center p-3 titelTabelle">Kurse</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/kursbesuche"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">Kursbesuche
+          analysieren</button>
+        <button routerLink="/admin/add_Kurs"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Kurs/{{kurs.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kurs of ersteKurse">{{kurs.kursname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenKurseKlicked()" [hidden]="!buttonMehrKurseAnzeigen">Mehr Anzeigen</button>
+        <a routerLink="/admin/edit_Kurs/{{kurs.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kurs of alleAnderenKurse" [hidden]="buttonMehrKurseAnzeigen">{{kurs.kursname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenKurseKlicked()" [hidden]="!buttonWenigerKurseAnzeigen">Weniger Anzeigen</button>
       </div>
-
-      <div class="col-md-3 col-12">
-        <h3 class="text-center p-3 titelTabelle">Kursgruppen</h3>
-        <div class="list-group p-2">
-            <button routerLink="/admin/add_Kursgruppe" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-          <a routerLink="/admin/edit_Kursgruppe/{{kursgruppe.id}}" class="list-group-item list-group-item-action" *ngFor="let kursgruppe of ersteKursgruppen">{{kursgruppe.kursgruppenname}}</a>
-          <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenKursgruppenKlicked()" [hidden]="!buttonMehrKursgruppenAnzeigen">Mehr Anzeigen</button>
-          <a routerLink="/admin/edit_Kursgruppe/{{kursgruppe.id}}" class="list-group-item list-group-item-action" *ngFor="let kursgruppe of alleAnderenKursgruppen" [hidden]="buttonMehrKursgruppenAnzeigen">{{kursgruppe.kursgruppenname}}</a>
-          <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenKursgruppenKlicked()" [hidden]="!buttonWenigerKursgruppenAnzeigen">Weniger Anzeigen</button>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-12">
-        <h3 class="text-center p-3 titelTabelle" id="red">Positionskategorien</h3>
-        <div class="list-group p-2">
-            <button routerLink="/admin/add_Positionskategorie" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-            <a routerLink="/admin/edit_Positionskategorie/{{positionskategorie.id}}" class="list-group-item list-group-item-action" *ngFor="let positionskategorie of erstePositionskategorien">{{positionskategorie.positionskategoriename}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenPositionskategorienKlicked()" [hidden]="!buttonMehrPositionskategorienAnzeigen">Mehr Anzeigen</button>
-            <a routerLink="/admin/edit_Positionskategorie/{{positionskategorie.id}}" class="list-group-item list-group-item-action" *ngFor="let positionskategorie of alleAnderenPositionskategorien" [hidden]="buttonMehrPositionskategorienAnzeigen">{{positionskategorie.positionskategoriename}}</a>
-            <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenPositionskategorienKlicked()" [hidden]="!buttonWenigerPositionskategorienAnzeigen">Weniger Anzeigen</button>
-        </div>
-
-        <h3 class="text-center p-3 titelTabelle" id="red">Positionen</h3>
-        <div class="list-group p-2">
-          <button routerLink="/admin/add_Position" class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton"><dt>+</dt></button>
-          <a routerLink="/admin/edit_Position/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of erstePositionen">{{position.positionsname}}</a>
-          <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="mehrAnzeigenPositionenKlicked()" [hidden]="!buttonMehrPositionenAnzeigen">Mehr Anzeigen</button>
-          <a routerLink="/admin/edit_Position/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of alleAnderenPositionen" [hidden]="buttonMehrPositionenAnzeigen">{{position.positionsname}}</a>
-          <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton" (click)="wenigerAnzeigenPositionenKlicked()" [hidden]="!buttonWenigerPositionenAnzeigen">Weniger Anzeigen</button>
-        </div>
-      </div>
-
-      
-      
-
-      
 
     </div>
+
+    <div class="col-md-3 col-12">
+      <h3 class="text-center p-3 titelTabelle">Kursgruppen</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/add_Kursgruppe"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Kursgruppe/{{kursgruppe.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kursgruppe of ersteKursgruppen">{{kursgruppe.kursgruppenname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenKursgruppenKlicked()" [hidden]="!buttonMehrKursgruppenAnzeigen">Mehr Anzeigen</button>
+        <a routerLink="/admin/edit_Kursgruppe/{{kursgruppe.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let kursgruppe of alleAnderenKursgruppen"
+          [hidden]="buttonMehrKursgruppenAnzeigen">{{kursgruppe.kursgruppenname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenKursgruppenKlicked()" [hidden]="!buttonWenigerKursgruppenAnzeigen">Weniger
+          Anzeigen</button>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+
+      <h3 class="text-center p-3 titelTabelle" id="red">Positionskategorien</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/add_Positionskategorie"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Positionskategorie/{{positionskategorie.id}}"
+          class="list-group-item list-group-item-action"
+          *ngFor="let positionskategorie of erstePositionskategorien">{{positionskategorie.positionskategoriename}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenPositionskategorienKlicked()" [hidden]="!buttonMehrPositionskategorienAnzeigen">Mehr
+          Anzeigen</button>
+        <a routerLink="/admin/edit_Positionskategorie/{{positionskategorie.id}}"
+          class="list-group-item list-group-item-action"
+          *ngFor="let positionskategorie of alleAnderenPositionskategorien"
+          [hidden]="buttonMehrPositionskategorienAnzeigen">{{positionskategorie.positionskategoriename}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenPositionskategorienKlicked()"
+          [hidden]="!buttonWenigerPositionskategorienAnzeigen">Weniger Anzeigen</button>
+      </div>
+
+      <h3 class="text-center p-3 titelTabelle" id="red">Positionen</h3>
+      <div class="list-group p-2">
+        <button routerLink="/admin/add_Position"
+          class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton addButton">
+          <dt>+</dt>
+        </button>
+        <a routerLink="/admin/edit_Position/{{position.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let position of erstePositionen">{{position.positionsname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="mehrAnzeigenPositionenKlicked()" [hidden]="!buttonMehrPositionenAnzeigen">Mehr Anzeigen</button>
+        <a routerLink="/admin/edit_Position/{{position.id}}" class="list-group-item list-group-item-action"
+          *ngFor="let position of alleAnderenPositionen"
+          [hidden]="buttonMehrPositionenAnzeigen">{{position.positionsname}}</a>
+        <button class="text-center p-3 list-group-item list-group-item-action allesAnzeigenButton"
+          (click)="wenigerAnzeigenPositionenKlicked()" [hidden]="!buttonWenigerPositionenAnzeigen">Weniger
+          Anzeigen</button>
+      </div>
+
+    </div>
+
+  </div>
 
 </div>

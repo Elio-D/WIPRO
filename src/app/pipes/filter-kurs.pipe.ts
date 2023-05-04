@@ -10,8 +10,7 @@ export class FilterKursPipe implements PipeTransform {
     if (!kurse || !filter) {
       return kurse;
     }
-
-    return kurse.filter(kurs => kurs.kurskategorie.kurskategoriename.toLowerCase().indexOf(filter.toLowerCase())>-1);
+    return kurse.filter(kurs => kurs.kurskategorie.kurskategoriename.toLowerCase().indexOf(filter.toLowerCase()) > -1);
   }
 
 }

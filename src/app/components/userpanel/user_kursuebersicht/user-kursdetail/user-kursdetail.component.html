@@ -1,71 +1,75 @@
 <app-user-header></app-user-header>
 
-    <div class="container py-5 h-100" *ngIf="kurs">
-          <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-header">
-                <h5 class="card-title">{{kurs.kursname}}</h5>
-              </div>
+<div class="container py-5 h-100" *ngIf="kurs">
+  <div class="card shadow-2-strong" style="border-radius: 1rem;">
 
-              <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="kursname">
-                    <p class="accordion-button">
-                      <strong>Kursname</strong>
-                    </p>
-                  </h2>
-                  <div id="kursname" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                     {{kurs.kursname}}
-                    </div>
-                  </div>
-                </div>
+    <div class="card-header">
+      <h5 class="card-title">{{kurs.kursname}}</h5>
+    </div>
 
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="kurskategorie">
-                      <p class="accordion-button">
-                        <strong>Kurskategorie</strong>
-                      </p>
-                    </h2>
-                    <div id="kurskategorie" class="accordion-collapse collapse show">
-                      <div class="accordion-body">
-                       {{kurs.kurskategorie.kurskategoriename}}
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="kursbeschreibung">
-                      <p class="accordion-button">
-                        <strong>Kursbeschreibung</strong>
-                      </p>
-                    </h2>
-                    <div id="kursbeschreibung" class="accordion-collapse collapse show">
-                      <div class="accordion-body">
-                       {{kurs.kursbeschreibung}}
-                      </div>
-                    </div>
-                  </div>
+    <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
 
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="kurskompetenz">
-                    <p class="accordion-button">
-                      <strong>Kurskompetenzen</strong>
-                    </p>
-                  </h2>
-                  <div id="kurskompetenz" class="accordion-collapse collapse show">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item" *ngFor="let kurskompetenz of kurskompetenzen">{{kurskompetenz.kompetenzname}}</li>
-                      </ul>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="row justify-content-center p-3">
-                <div class="col-12" style="height:20px;"></div>
-              <button class="btn btn-secondary btn-lg btn-block col-md-3 col-11"(click)="goBack()">Zurück</button>
-              <div class="col-md-2" style="height:20px;"></div>
-              <a class="btn btn-primary btn-lg btn-block col-md-3 col-11 " href="{{kurs.link}}">Zum Kursanbieter</a>
-              </div>
-            </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="kursname">
+          <p class="accordion-button">
+            <strong>Kursname</strong>
+          </p>
+        </h2>
+        <div id="kursname" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{kurs.kursname}}
           </div>
-   
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="kurskategorie">
+          <p class="accordion-button">
+            <strong>Kurskategorie</strong>
+          </p>
+        </h2>
+        <div id="kurskategorie" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{kurs.kurskategorie.kurskategoriename}}
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="kursbeschreibung">
+          <p class="accordion-button">
+            <strong>Kursbeschreibung</strong>
+          </p>
+        </h2>
+        <div id="kursbeschreibung" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{kurs.kursbeschreibung}}
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="kurskompetenz">
+          <p class="accordion-button">
+            <strong>Kurskompetenzen</strong>
+          </p>
+        </h2>
+        <div id="kurskompetenz" class="accordion-collapse collapse show">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let kurskompetenz of kurskompetenzen">{{kurskompetenz.kompetenzname}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center p-3">
+      <div class="col-12" style="height:20px;"></div>
+      <button class="btn btn-secondary btn-lg btn-block col-md-3 col-11" (click)="goBack()">Zurück</button>
+      <div class="col-md-2" style="height:20px;"></div>
+      <a class="btn btn-primary btn-lg btn-block col-md-3 col-11 " href="{{kurs.link}}" target="_blank"
+        (click)="addKurslog(kurs.id)">Zum Kursanbieter</a>
+    </div>
+    
+  </div>
+</div>

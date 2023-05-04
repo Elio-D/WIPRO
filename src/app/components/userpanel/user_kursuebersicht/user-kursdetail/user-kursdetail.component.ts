@@ -13,12 +13,6 @@ import { Kompetenz } from 'src/app/interfaces/kompetenz';
 })
 export class UserKursdetailComponent implements OnInit {
 
-  /*
-  @Input() kurs?: Kurs;
-  @Input() showDetailMenu?: boolean;
-  @Output() formSubmittedEvent = new EventEmitter<boolean>();
-*/
-
   kurs: Kurs | undefined;
   kurskompetenzen: Kompetenz[] | undefined;
 
@@ -32,6 +26,9 @@ export class UserKursdetailComponent implements OnInit {
     this.getData()
   }
 
+  /**
+  * (Nächste zwei Methoden) Holen alle Kursinformationen per ID des Kurses via Kursservice
+  */
   getData(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.kursService.getKursByID(id)
@@ -39,13 +36,25 @@ export class UserKursdetailComponent implements OnInit {
         this.kurs = kurs
         this.getKurskompetenzen();
       });
-      
   }
 
   getKurskompetenzen(): void {
     this.kurskompetenzen = this.kurs?.kurskompetenzen_erlerndend;
   }
 
+  /**
+  * Fügt ein Kurslog via Kursservice hinzu
+  * Wird ausgeführt sobald jemand auf den Link "Zum Kursanbieter" klickt
+  * @param kursID Die ID des Kurses welcher gelogt werden soll
+  */
+  addKurslog(kursID: number) {
+    this.kursService.addKurslog(kursID).subscribe((data: any) => {
+    });
+  }
+
+  /**
+  * Die vorherige Seite wird aufgerufen
+  */
   goBack(): void {
     this.location.back();
   }

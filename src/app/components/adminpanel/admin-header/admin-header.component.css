@@ -1,0 +1,35 @@
+.nav-item {
+    color: white;
+    margin-top:5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    }
+
+.nav-item:hover {
+    color: white;
+    background-color: #FFBD00;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+ }
+
+.nav-link {
+    color: white;
+    text-align: center;
+}
+
+#login {
+    color: white;
+    border: 1px;
+    background-color: #007BFF;
+    border-radius: 8px;
+}
+
+
+.active {
+    color: white;
+    border: 1px;
+    background-color: #FFBD00;
+    border-radius: 8px;
+}

@@ -1,0 +1,113 @@
+<app-admin-header></app-admin-header>
+
+<div [hidden]="kursgruppeBearbeitet" class="container w-50 py-5 h-100">
+
+  <h1 [hidden]="itemGetsEdited" style="margin-bottom: 40px;">Kursgruppe</h1>
+  <h1 [hidden]="!itemGetsEdited" style="margin-bottom: 40px;">Kursgruppe bearbeiten</h1>
+
+  <form [formGroup]="kursgruppeEditForm" #form="ngForm">
+
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <label [hidden]="!itemGetsEdited" for="kursgruppenname" class="form-label">Name der Kursgruppe</label>
+      <label [hidden]="itemGetsEdited" for="kursgruppenname" class="form-label"><strong>Name der
+          Kursgruppe</strong></label>
+      <p [hidden]="itemGetsEdited" class="card-text">{{kursgruppe.kursgruppenname}}</p>
+      <input [hidden]="!itemGetsEdited" type="text" id="kursgruppenname" name="kursgruppenname"
+        formControlName="kursgruppenname" placeholder="kursgruppenname" required minlength="2" maxlength="45"
+        class="form-control" [class.is-invalid]="kursgruppenname.invalid && (kursgruppenname.dirty)">
+      <div *ngIf="kursgruppenname.invalid && (kursgruppenname.dirty)" class="invalid-feedback">
+        <div *ngIf="kursgruppenname.errors?.['required']">
+          Das Feld muss ausgefüllt werden.
+        </div>
+        <div *ngIf="kursgruppenname.errors?.['minlength']">
+          Es müssen mindestens 2 Zeichen vorhanden sein.
+        </div>
+        <div *ngIf="kursgruppenname.errors?.['maxlength']">
+          Es dürfen maximal 45 Zeichen verwendet werden.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <p [hidden]="itemGetsEdited" class="form-label"><strong>Kurse</strong></p>
+      <ul [hidden]="itemGetsEdited" *ngFor="let kurs of this.kursgruppe.kursreihenfolge; let i=index">
+        <li>{{i + 1}}. Kurs: {{kurs.kursname}}</li>
+      </ul>
+    </div>
+
+    <div [hidden]="!itemGetsEdited" formArrayName="kurse">
+      <div class="form-group was-validated" style="margin-bottom:20px">
+        <div class="row" *ngFor="let kurs of kurse.controls; let i=index">
+          <label for="{{ i }}" class="form-label" style="margin-top:20px">Kurs {{i + 1}}</label>
+          <div class="col-10">
+            <select id="{{ i }}" name="{{ i }}" formControlName="{{ i }}" required class="form-select"
+              [class.is-invalid]="kurse.invalid">
+              <option value="" selected hidden>Bitte eine Kurs auswählen</option>
+              <option *ngFor="let kursAll of allKurse" [selected]="kurs.value == kursAll.kursname">{{kursAll.kursname}}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-secondary col-2" (click)="removeKurs(i)">entfernen</button>
+        </div>
+        <div *ngIf="kurse.invalid && (kurse.dirty || kurse.touched)" class="invalid-feedback">
+          <div *ngIf="kurse.errors?.['required']">
+            Es muss ein Kurs ausgewählt werden.
+          </div>
+        </div>
+        <button style="margin-top:20px" class="btn btn-secondary col-6" (click)="addKurs()">+ weiterer Kurs
+          hinzufügen</button>
+      </div>
+    </div>
+
+    <p [hidden]="checkKursRemoveOK()" class="text-danger">Es kann kein Kurs entfernt werden, es müssen mind. zwei Kurse
+      vorhanden sein</p>
+    <p [hidden]="kursreihenfolgeUnique" class="text-danger">Ein Kurs darf nicht mehrmals ausgewählt werden</p>
+    <p [hidden]="controlFormChange()" class="text-danger">Es muss mindestens ein Feld angepasst werden</p>
+
+
+    <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="itemGetsEdited">zurück</button>
+    <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
+
+    <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;"
+      class="btn btn-primary">Kursgruppe bearbeiten</button>
+    <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit"
+      class="btn btn-primary" [disabled]="!kursgruppeEditForm.valid">Anpassung speichern</button>
+
+    <button class="btn btn-danger" [hidden]="itemGetsEdited" data-bs-toggle="modal"
+      data-bs-target="#exampleModal">Kursgruppe löschen</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Gruppe {{kursgruppe.kursgruppenname}}
+              <strong>löschen?</strong>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Sind Sie sich sicher, dass Sie die Gruppe <strong>{{kursgruppe.kursgruppenname}}</strong> löschen möchten?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
+            <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Kursgruppe
+              löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+<div [hidden]="!kursgruppeBearbeitet" class="container w-50 py-5 h-100">
+  <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+  <div class="form-group was-validated" style="margin-bottom:20px">
+    <p class="card-text">Die Kursgruppe <strong>{{kursgruppe.kursgruppenname}}</strong> wurde erfolgreich angepasst.</p>
+  </div>
+  <button type="button" class="btn btn-secondary" style="margin-right: 20px;" (click)="goBack()">Okay, super</button>
+  <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>
+</div>

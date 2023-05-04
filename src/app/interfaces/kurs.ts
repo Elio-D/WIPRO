@@ -11,15 +11,5 @@ export class Kurs {
         public kurskompetenzen_erlerndend: Kompetenz[],
         public link: string
     ) {  }
-
-    static parse(json: string) {
-        var data = JSON.parse(json);
-        console.log(data);
-        
-
-         /*return new Kurs(data.idKurs, data.Kursname, data.Kursbeschreibung, 
-            new Kurskategorie(data.idKurskategorie, data.Kurskategoriename, data.Kurskategoriespalte),
-             , data.Link_Buchung);*/
-    }
   
   }

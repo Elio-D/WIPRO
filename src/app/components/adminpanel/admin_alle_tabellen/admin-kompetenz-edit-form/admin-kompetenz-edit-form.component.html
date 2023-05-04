@@ -4,14 +4,17 @@
 
   <h1 [hidden]="itemGetsEdited" style="margin-bottom: 40px;">Kompetenz</h1>
   <h1 [hidden]="!itemGetsEdited" style="margin-bottom: 40px;">Kompetenz bearbeiten</h1>
+
   <form [formGroup]="kompetenzEditForm" #form="ngForm">
 
     <div class="form-group was-validated" style="margin-bottom:20px">
       <label [hidden]="!itemGetsEdited" for="kompetenzname" class="form-label">Name der Kompetenz</label>
-      <label [hidden]="itemGetsEdited" for="kompetenzname" class="form-label"><strong>Name der Kompetenz</strong></label>
+      <label [hidden]="itemGetsEdited" for="kompetenzname" class="form-label"><strong>Name der
+          Kompetenz</strong></label>
       <p [hidden]="itemGetsEdited" class="card-text">{{kompetenz.kompetenzname}}</p>
-      <input [hidden]="!itemGetsEdited" type="text" id="kompetenzname" name="kompetenzname" formControlName="kompetenzname" placeholder="Name der Kompetenz eingeben" required minlength="2" maxlength="100" class="form-control" 
-      [class.is-invalid]="kompetenzname.invalid && (kompetenzname.dirty)">
+      <input [hidden]="!itemGetsEdited" type="text" id="kompetenzname" name="kompetenzname"
+        formControlName="kompetenzname" placeholder="Name der Kompetenz eingeben" required minlength="2" maxlength="100"
+        class="form-control" [class.is-invalid]="kompetenzname.invalid && (kompetenzname.dirty)">
       <div *ngIf="kompetenzname.invalid && (kompetenzname.dirty)" class="invalid-feedback">
         <div *ngIf="kompetenzname.errors?.['required']">
           Das Feld muss ausgefüllt werden.
@@ -25,46 +28,51 @@
       </div>
     </div>
 
+    <p [hidden]="controlFormChange()" class="text-danger">Das Feld muss angepasst werden</p>
 
-       <p [hidden]="controlFormChange()" class="text-danger">Das Feld muss angepasst werden</p>
+    <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="itemGetsEdited">zurück</button>
+    <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;"
+      [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
 
+    <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;" class="btn btn-primary">Kompetenz
+      bearbeiten</button>
+    <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit"
+      class="btn btn-primary" [disabled]="!kompetenzEditForm.valid">Anpassung speichern</button>
 
-      <button (click)="goBack()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="itemGetsEdited">zurück</button>
-      <button (click)="exitEdit()" class="btn btn-secondary" style="margin-right: 20px;" [hidden]="!itemGetsEdited">Bearbeitung abbrechen</button>
+    <button class="btn btn-danger" [hidden]="itemGetsEdited" data-bs-toggle="modal"
+      data-bs-target="#exampleModal">Kompetenz löschen</button>
 
-      <button (click)="editItem()" [hidden]="itemGetsEdited" style="margin-right: 20px;"class="btn btn-primary">Kompetenz bearbeiten</button>
-      <button (click)="onSubmit()" [hidden]="!itemGetsEdited" style="margin-right: 20px;" type="submit" class="btn btn-primary" [disabled]="!kompetenzEditForm.valid" >Anpassung speichern</button>
-
-      <button class="btn btn-danger" [hidden]="itemGetsEdited"  data-bs-toggle="modal" data-bs-target="#exampleModal">Kompetenz löschen</button>
-
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Kompetenz {{kompetenz.kompetenzname}} <strong>löschen?</strong></h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Sind Sie sich sicher, dass Sie die Kompetenz <strong>{{kompetenz.kompetenzname}}</strong> löschen möchten?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
-              <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Kompetenz löschen</button>
-            </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Kompetenz {{kompetenz.kompetenzname}}
+              <strong>löschen?</strong>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Sind Sie sich sicher, dass Sie die Kompetenz <strong>{{kompetenz.kompetenzname}}</strong> löschen möchten?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein, abbrechen</button>
+            <button type="button" class="btn btn-danger" (click)="deleteItem()" data-bs-dismiss="modal">Ja, Kompetenz
+              löschen</button>
           </div>
         </div>
       </div>
+    </div>
+
   </form>
+
 </div>
 
 <div [hidden]="!kompetenzeBearbeitet" class="container w-50 py-5 h-100">
-
   <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
   <div class="form-group was-validated" style="margin-bottom:20px">
-      <p class="card-text">Die Kompetenz <strong>{{kompetenz.kompetenzname}}</strong> wurde erfolgreich angepasst.</p>
-     
+    <p class="card-text">Die Kompetenz <strong>{{kompetenz.kompetenzname}}</strong> wurde erfolgreich angepasst.</p>
   </div>
-
-     <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Okay, super</button>
-     <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>          
+  <button type="button" class="btn btn-secondary" style="margin-right: 20px;" (click)="goBack()">Okay, super</button>
+  <button type="button" class="btn btn-primary" (click)="reload()">Details ansehen</button>
 </div>

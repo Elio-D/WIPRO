@@ -1,0 +1,72 @@
+<app-admin-header></app-admin-header>
+
+<div [hidden]="kursgruppeHinzugefuegt" class="container w-50 py-5 h-100">
+
+  <h1 style="margin-bottom: 40px;">Neue Kursgruppe hinzufügen</h1>
+  <form [formGroup]="kursgruppeAddForm" #form="ngForm">
+
+    <div class="form-group was-validated">
+      <label for="kursgruppenname" class="form-label">Name der Kursgruppe</label>
+      <input type="text" id="kursgruppenname" name="kursgruppenname" formControlName="kursgruppenname"
+        placeholder="Name der Kursgruppe hier eingeben" required minlength="2" maxlength="45" class="form-control"
+        [class.is-invalid]="kursgruppenname.invalid && (kursgruppenname.dirty || kursgruppenname.touched)">
+      <div *ngIf="kursgruppenname.invalid && (kursgruppenname.dirty || kursgruppenname.touched)"
+        class="invalid-feedback">
+        <div *ngIf="kursgruppenname.errors?.['required']">
+          Das Feld muss ausgefüllt werden.
+        </div>
+        <div *ngIf="kursgruppenname.errors?.['minlength']">
+          Es müssen mindestens 2 Zeichen vorhanden sein.
+        </div>
+        <div *ngIf="kursgruppenname.errors?.['maxlength']">
+          Es dürfen maximal 45 Zeichen verwendet werden.
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="kurse">
+      <div class="form-group was-validated" style="margin-bottom:20px">
+        <div class="row" *ngFor="let kurs of kurse.controls; let i=index">
+          <label for="kurs-{{ i }}" class="form-label" style="margin-top:20px">Kurs {{i + 1}}</label>
+          <div class="col-10">
+            <select id="kurs-{{ i }}" name="kurs-{{ i }}" formControlName="{{ i }}" required class="form-select"
+              [class.is-invalid]="kurse.invalid">
+              <option value="" selected hidden>Bitte ein Kurs auswählen</option>
+              <option *ngFor="let kurs of allKurse">{{kurs.kursname}}</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary col-2" (click)="removeKurs(i)">entfernen</button>
+        </div>
+        <div *ngIf="kurse.invalid && (kurse.dirty || kurse.touched)" class="invalid-feedback">
+          <div *ngIf="kurse.errors?.['required']">
+            Es muss ein Kurs ausgewählt werden.
+          </div>
+        </div>
+        <button style="margin-top:20px" class="btn btn-secondary col-6" (click)="addKurs()">+ weiterer Kurs
+          hinzufügen</button>
+      </div>
+    </div>
+    <p [hidden]="checkKursRemoveOK()" class="text-danger">Es kann kein Kurs entfernt werden, es müssen mind. zwei Kurse
+      vorhanden sein</p>
+    <p [hidden]="kursreihenfolgeUnique" class="text-danger">Ein Kurs darf nicht mehrmals ausgewählt werden</p>
+
+    <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;"
+      [disabled]="!kursgruppeAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
+    <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;"
+      (click)="resetForm()">zurücksetzen</button>
+    <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
+
+  </form>
+
+</div>
+
+<div [hidden]="!kursgruppeHinzugefuegt" class="container w-50 py-5 h-100">
+  <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+  <div class="form-group was-validated" style="margin-bottom:20px">
+    <p class="card-text">Die Kursgruppe <strong>{{kursgruppe.kursgruppenname}}</strong> wurde erfolgreich hinzugefügt.
+    </p>
+  </div>
+  <button type="button" class="btn btn-secondary" style="margin-right: 20px;" (click)="goBack()">Okay, super</button>
+  <button type="button" class="btn btn-primary" routerLink="/admin/edit_Kursgruppe/{{kursgruppe.id}}">Details
+    ansehen</button>
+</div>

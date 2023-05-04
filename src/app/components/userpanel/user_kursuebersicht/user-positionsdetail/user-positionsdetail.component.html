@@ -1,69 +1,71 @@
 <app-user-header></app-user-header>
 
-    <div class="container py-5 h-100" *ngIf="position">
-          <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-header">
-                <h5 class="card-title">{{position.positionsname}}</h5>
-              </div>
+<div class="container py-5 h-100" *ngIf="position">
+  <div class="card shadow-2-strong" style="border-radius: 1rem;">
+    
+    <div class="card-header">
+      <h5 class="card-title">{{position.positionsname}}</h5>
+    </div>
 
-              <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="positionsname">
-                    <p class="accordion-button">
-                      <strong>Position</strong>
-                    </p>
-                  </h2>
-                  <div id="positionsname" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                     {{position.positionsname}}
-                    </div>
-                  </div>
-                </div>
+    <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
 
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="positionskategorie">
-                      <p class="accordion-button">
-                        <strong>Positionskategorie</strong>
-                      </p>
-                    </h2>
-                    <div id="positionskategorie" class="accordion-collapse collapse show">
-                      <div class="accordion-body">
-                       {{position.positionskategorie.positionskategoriename}}
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="positionsbeschreibung">
-                      <p class="accordion-button">
-                        <strong>Positionsbeschreibung</strong>
-                      </p>
-                    </h2>
-                    <div id="positionsbeschreibung" class="accordion-collapse collapse show">
-                      <div class="accordion-body">
-                       {{position.positionsbeschreibung}}
-                      </div>
-                    </div>
-                  </div>
-
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="positionskompetenz">
-                    <p class="accordion-button">
-                      <strong>Positionskompetenz</strong>
-                    </p>
-                  </h2>
-                  <div id="positionskompetenz" class="accordion-collapse collapse show">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item" *ngFor="let positionskompetenz of positionskompetenzen">{{positionskompetenz.kompetenzname}}</li>
-                      </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row justify-content-center p-3">
-              <button class="btn btn-secondary btn-lg btn-block col-md-3 col-11"(click)="goBack()">Zurück</button>
-              </div>
-
-            </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="positionsname">
+          <p class="accordion-button">
+            <strong>Position</strong>
+          </p>
+        </h2>
+        <div id="positionsname" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{position.positionsname}}
           </div>
-   
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="positionskategorie">
+          <p class="accordion-button">
+            <strong>Positionskategorie</strong>
+          </p>
+        </h2>
+        <div id="positionskategorie" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{position.positionskategorie.positionskategoriename}}
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="positionsbeschreibung">
+          <p class="accordion-button">
+            <strong>Positionsbeschreibung</strong>
+          </p>
+        </h2>
+        <div id="positionsbeschreibung" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            {{position.positionsbeschreibung}}
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="positionskompetenz">
+          <p class="accordion-button">
+            <strong>Positionskompetenz</strong>
+          </p>
+        </h2>
+        <div id="positionskompetenz" class="accordion-collapse collapse show">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let positionskompetenz of positionskompetenzen">
+              {{positionskompetenz.kompetenzname}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center p-3">
+      <button class="btn btn-secondary btn-lg btn-block col-md-3 col-11" (click)="goBack()">Zurück</button>
+    </div>
+
+  </div>
+</div>

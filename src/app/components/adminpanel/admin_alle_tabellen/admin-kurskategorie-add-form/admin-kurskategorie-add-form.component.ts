@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Kurskategorie } from 'src/app/interfaces/kurskategorie';
-import { KurseService } from 'src/app/services/kurse.service';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Kurskategorie } from 'src/app/interfaces/kurskategorie';
+
+import { KurseService } from 'src/app/services/kurse.service';
 
 @Component({
   selector: 'app-admin-kurskategorie-add-form',
@@ -14,17 +16,20 @@ export class AdminKurskategorieAddFormComponent implements OnInit {
   kurskateogrieAddForm!: FormGroup;
   kurskategorie: Kurskategorie;
 
+  spalten: number[] = [1, 2, 3, 4];
+
+  kurskategorieHinzugefuegt = false;
+
   constructor(
-   private kurseService: KurseService,
-   private location: Location
+    private kurseService: KurseService,
+    private location: Location
   ) {
     this.kurskategorie = {
     } as Kurskategorie;
 
-   }
+  }
 
   ngOnInit(): void {
-    
     this.kurskateogrieAddForm = new FormGroup({
       spalte: new FormControl(this.kurskategorie.spalte, [
         Validators.required
@@ -37,10 +42,6 @@ export class AdminKurskategorieAddFormComponent implements OnInit {
     });
   }
 
-  spalten: number[] = [1,2,3,4];
-
-  kurskategorieHinzugefuegt = false;
-
   get spalte() {
     return this.kurskateogrieAddForm.get('spalte')!;
   }
@@ -49,22 +50,23 @@ export class AdminKurskategorieAddFormComponent implements OnInit {
     return this.kurskateogrieAddForm.get('kurskategoriename')!;
   }
 
-onSubmit() { 
-  
-  this.kurskategorie.spalte = this.kurskateogrieAddForm.value.spalte;
-  this.kurskategorie.kurskategoriename = this.kurskateogrieAddForm.value.kurskategoriename;
-  this.kurseService.addKurskategorie(this.kurskategorie).subscribe((data: any) => {
-    this.kurskategorie.id = data.insertId;
-    this.kurskategorieHinzugefuegt = true;
-    console.log(data.insertId);
-    console.log(this.kurskategorie);
-  });
-  
-  
-}
+  /**
+  * Speichert neue Kategorie via Kursservice ab
+  */
+  onSubmit() {
+    this.kurskategorie.spalte = this.kurskateogrieAddForm.value.spalte;
+    this.kurskategorie.kurskategoriename = this.kurskateogrieAddForm.value.kurskategoriename;
+    this.kurseService.addKurskategorie(this.kurskategorie).subscribe((data: any) => {
+      this.kurskategorie.id = data.insertId;
+      this.kurskategorieHinzugefuegt = true;
+    });
+  }
 
-goBack() {
-  this.location.back();
-}
+  /**
+  * Geht eine Seite zurück
+  */
+  goBack() {
+    this.location.back();
+  }
 
 }

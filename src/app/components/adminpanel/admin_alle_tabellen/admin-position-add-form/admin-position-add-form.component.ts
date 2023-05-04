@@ -47,7 +47,7 @@ export class AdminPositionAddFormComponent implements OnInit {
     this.position = {
       passend_zu_branche: 1
     } as Position;
-   }
+  }
 
   ngOnInit(): void {
     this.positionAddForm = new FormGroup({
@@ -55,7 +55,7 @@ export class AdminPositionAddFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(100),
-        
+
       ]),
       positionskategorie: new FormControl(this.position.positionskategorie, [
         Validators.required
@@ -93,27 +93,38 @@ export class AdminPositionAddFormComponent implements OnInit {
     return this.positionAddForm.get('passend_zu_branche')!;
   }
 
+  /**
+  * Fügt zu jeder Kompetenz eine Checkbox für das Formular hinzu. 
+  * In Form eines neuen FormControls.
+  */
   private addCheckboxes() {
     this.allKompetenzen.forEach(() => this.positionskompetenzen.push(new FormControl(this.position.positionskompetenzen)));
   }
 
+  /**
+  * Holt alle Positionen, Positonskategorien und Kompetenzen via Positions- und Kompetenzenservice
+  */
   getData() {
-    this.positionenService.getAllPositionen().subscribe(positionen => this.allPositionen = positionen); 
-    this.positionenService.getAllPositionskateogrien().subscribe(positionskategorie => this.allPositionskategorien = positionskategorie); 
-    this.kompetenzenService.getAllKompetenzen().subscribe((kompetenzen) =>  {
+    this.positionenService.getAllPositionen().subscribe(positionen => this.allPositionen = positionen);
+    this.positionenService.getAllPositionskateogrien().subscribe(positionskategorie => this.allPositionskategorien = positionskategorie);
+    this.kompetenzenService.getAllKompetenzen().subscribe((kompetenzen) => {
       this.allKompetenzen = kompetenzen
       this.addCheckboxes();
-    }); 
+    });
   }
 
-  onSubmit(){
+  /**
+  * Parst Daten (Positionskategorie & Kompetenzen & Passend zu Branche) aus dem Formular in Objecte für die Datenabspeicherung um
+  * und speichert neue Position via Positionservice ab
+  */
+  onSubmit() {
     const selectedPositionskategorie = this.positionAddForm.value.positionskategorie;
     this.positionAddForm.value.positionskategorie = this.allPositionskategorien.find(kategorie => kategorie.positionskategoriename == selectedPositionskategorie);
 
     const selectedKompetenzen = this.positionAddForm.value.positionskompetenzen;
     this.positionAddForm.value.positionskompetenzen = [];
-    selectedKompetenzen.forEach((element: boolean, index:number) => {
-      if(element == true) {
+    selectedKompetenzen.forEach((element: boolean, index: number) => {
+      if (element == true) {
         this.positionAddForm.value.positionskompetenzen.push(this.allKompetenzen[index])
       }
     });
@@ -122,26 +133,25 @@ export class AdminPositionAddFormComponent implements OnInit {
     this.position.positionskategorie = this.positionAddForm.value.positionskategorie;
     this.position.positionsbeschreibung = this.positionAddForm.value.positionsbeschreibung;
     this.position.positionskompetenzen = this.positionAddForm.value.positionskompetenzen;
-    if(this.positionAddForm.value.passend_zu_branche){
+    if (this.positionAddForm.value.passend_zu_branche) {
       this.position.passend_zu_branche = 1;
     } else {
       this.position.passend_zu_branche = 0;
-    }    
+    }
     this.positionenService.addPosition(this.position).subscribe((data: any) => {
       this.position.id = data.insertId;
-      this.positionenService.addPosition_Kat(this.position).subscribe((data1: any) =>{
+      this.positionenService.addPosition_Kat(this.position).subscribe((data1: any) => {
         this.position.positionskompetenzen.forEach(element => {
-          this.positionenService.addPosition_Komp(element.id, this.position).subscribe((data: any) =>{
+          this.positionenService.addPosition_Komp(element.id, this.position).subscribe((data: any) => {
           });
         });
       });
-      this.positionHinzugefuegt = true;
-      console.log(data.insertId);
-    console.log(this.position);
+      this.positionHinzugefuegt = true;;
     });
+
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 }

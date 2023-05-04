@@ -2,41 +2,45 @@
 
 <div [hidden]="kompetenzHinzugefuegt" class="container w-50 py-5 h-100">
 
-            <h1 style="margin-bottom: 40px;">Neue Kompetenz hinzufügen</h1>
-            <form [formGroup]="kompetenzAddForm" #form="ngForm">
+  <h1 style="margin-bottom: 40px;">Neue Kompetenz hinzufügen</h1>
 
-              <div class="form-group was-validated" style="margin-bottom:20px">
-                <label for="kompetenzname" class="form-label">Name der Kompetenz</label>
-                <input type="text" id="kompetenzname" name="kompetenzname" formControlName="kompetenzname" placeholder="Name der Kompetenz eingeben" required minlength="2" maxlength="100" class="form-control" 
-                [class.is-invalid]="kompetenzname.invalid && (kompetenzname.dirty || kompetenzname.touched)">
-                <div *ngIf="kompetenzname.invalid && (kompetenzname.dirty || kompetenzname.touched)" class="invalid-feedback">
-                  <div *ngIf="kompetenzname.errors?.['required']">
-                    Das Feld muss ausgefüllt werden.
-                  </div>
-                  <div *ngIf="kompetenzname.errors?.['minlength']">
-                    Es müssen mindestens 2 Zeichen vorhanden sein.
-                  </div>
-                  <div *ngIf="kompetenzname.errors?.['maxlength']">
-                    Es dürfen maximal 100 Zeichen verwendet werden.
-                  </div>
-                </div>
-              </div>
+  <form [formGroup]="kompetenzAddForm" #form="ngForm">
 
-               <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;" [disabled]="!kompetenzAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
-               <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;" (click)="kompetenzAddForm.reset()">zurücksetzen</button>
-               <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
-  
-            </form>
-          </div>
-        
-          <div [hidden]="!kompetenzHinzugefuegt" class="container w-50 py-5 h-100">
+    <div class="form-group was-validated" style="margin-bottom:20px">
+      <label for="kompetenzname" class="form-label">Name der Kompetenz</label>
+      <input type="text" id="kompetenzname" name="kompetenzname" formControlName="kompetenzname"
+        placeholder="Name der Kompetenz eingeben" required minlength="2" maxlength="100" class="form-control"
+        [class.is-invalid]="kompetenzname.invalid && (kompetenzname.dirty || kompetenzname.touched)">
+      <div *ngIf="kompetenzname.invalid && (kompetenzname.dirty || kompetenzname.touched)" class="invalid-feedback">
+        <div *ngIf="kompetenzname.errors?.['required']">
+          Das Feld muss ausgefüllt werden.
+        </div>
+        <div *ngIf="kompetenzname.errors?.['minlength']">
+          Es müssen mindestens 2 Zeichen vorhanden sein.
+        </div>
+        <div *ngIf="kompetenzname.errors?.['maxlength']">
+          Es dürfen maximal 100 Zeichen verwendet werden.
+        </div>
+      </div>
+    </div>
 
-            <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
-            <div class="form-group was-validated" style="margin-bottom:20px">
-                <p class="card-text">Die Kurskategorie <strong>{{kompetenz.kompetenzname}}</strong> wurde erfolgreich hinzugefügt.</p>
-               
-            </div>
-          
-               <button type="button" class="btn btn-secondary" style="margin-right: 20px;" routerLink="/admin/tabellenuebersicht" (click)="goBack()">Okay, super</button>
-               <button type="button" class="btn btn-primary" routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}">Details ansehen</button>          
-          </div>
+    <button type="submit" class="btn btn-success" style="margin-top:20px; margin-right: 20px;"
+      [disabled]="!kompetenzAddForm.valid" (click)="onSubmit()">Hinzufügen</button>
+    <button type="button" class="btn btn-danger" style="margin-top:20px; margin-right: 20px;"
+      (click)="kompetenzAddForm.reset()">zurücksetzen</button>
+    <button type="button" class="btn btn-secondary" style="margin-top:20px" (click)="goBack()">zurück</button>
+
+  </form>
+
+</div>
+
+<div [hidden]="!kompetenzHinzugefuegt" class="container w-50 py-5 h-100">
+  <h1 style="margin-bottom: 40px;">Es hat geklappt!</h1>
+  <div class="form-group was-validated" style="margin-bottom:20px">
+    <p class="card-text">Die Kurskategorie <strong>{{kompetenz.kompetenzname}}</strong> wurde erfolgreich hinzugefügt.
+    </p>
+  </div>
+  <button type="button" class="btn btn-secondary" style="margin-right: 20px;" (click)="goBack()">Okay, super</button>
+  <button type="button" class="btn btn-primary" routerLink="/admin/edit_Kompetenz/{{kompetenz.id}}">Details
+    ansehen</button>
+</div>

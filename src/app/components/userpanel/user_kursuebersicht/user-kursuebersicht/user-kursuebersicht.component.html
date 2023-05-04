@@ -1,88 +1,98 @@
 <app-user-header></app-user-header>
 
-
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
   <button class="col-md-3 col-10 navUebersichtAktive">Kursübersicht</button>
   <div class="col-md-1 col-12"></div>
-  <button routerLink="/positionsuebersicht" class="col-md-3 col-10 navUebersichtPassive">Positionsübersicht</button>
+  <button routerLink="/uebersicht/positionsuebersicht"
+    class="col-md-3 col-10 navUebersichtPassive">Positionsübersicht</button>
 </div>
 
 <div class="container-fluid">
+
   <div class="row justify-content-center">
     <div class="display-2 justify-content-center col-md-5 col-12 p-3 titeluebersicht">Kursübersicht</div>
   </div>
-    <div class="row row-cols">
-      <div class="col-md-3 col-12">
-        <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample" *ngFor="let kurskategorie of kurskategorien_S1">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="header-{{kurskategorie.kurskategoriename}}">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + kurskategorie.kurskategoriename">
-                {{kurskategorie.kurskategoriename}}
-              </button>
-            </h2>
-     
-            <div id="{{kurskategorie.kurskategoriename}}" class="accordion-collapse collapse show">
-              <div class="list-group list-group-flush">
-                <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>         
-              </div>
-            </div>
-      </div>
-      </div>
-      </div>
-      <div class="col-md-3 col-12">
-        <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample" *ngFor="let kurskategorie of kurskategorien_S2">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="header-{{kurskategorie.kurskategoriename}}">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + kurskategorie.kurskategoriename">
-                {{kurskategorie.kurskategoriename}}
-              </button>
-            </h2>
-            <div id="{{kurskategorie.kurskategoriename}}" class="accordion-collapse collapse show">
-              <div class="list-group list-group-flush">
-                <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>         
-              </div>
+
+  <div class="row row-cols">
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" *ngFor="let kurskategorie of kurskategorien_S1">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{kurskategorie.kurskategoriename}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + kurskategorie.kurskategoriename">
+              {{kurskategorie.kurskategoriename}}
+            </button>
+          </h2>
+          <div id="{{kurskategorie.kurskategoriename}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>
             </div>
           </div>
         </div>
-
-      </div>
-      <div class="col-md-3 col-12">
-        
-        <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample" *ngFor="let kurskategorie of kurskategorien_S3">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="header-{{kurskategorie.kurskategoriename}}">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + kurskategorie.kurskategoriename">
-                {{kurskategorie.kurskategoriename}}
-              </button>
-            </h2>
-            <div id="{{kurskategorie.kurskategoriename}}" class="accordion-collapse collapse show">
-              <div class="list-group list-group-flush">
-                <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>         
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="col-md-3 col-12">
-        
-        <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample" *ngFor="let kurskategorie of kurskategorien_S4">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="header-{{kurskategorie.kurskategoriename}}">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + kurskategorie.kurskategoriename">
-                {{kurskategorie.kurskategoriename}}
-              </button>
-            </h2>
-            <div id="{{kurskategorie.kurskategoriename}}" class="accordion-collapse collapse show">
-              <div class="list-group list-group-flush">
-                <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action" *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>         
-              </div>
-            </div>
-          </div>
-        </div>
-
-
       </div>
     </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" *ngFor="let kurskategorie of kurskategorien_S2">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(kurskategorie.kurskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(kurskategorie.kurskategoriename)">
+              {{kurskategorie.kurskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(kurskategorie.kurskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample"
+        *ngFor="let kurskategorie of kurskategorien_S3">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(kurskategorie.kurskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(kurskategorie.kurskategoriename)">
+              {{kurskategorie.kurskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(kurskategorie.kurskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" id="accordionPanelsStayOpenExample"
+        *ngFor="let kurskategorie of kurskategorien_S4">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(kurskategorie.kurskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(kurskategorie.kurskategoriename)">
+              {{kurskategorie.kurskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(kurskategorie.kurskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/kursdetail/{{kurs.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let kurs of kurse | filterKurs:kurskategorie.kurskategoriename">{{kurs.kursname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
 
 </div>

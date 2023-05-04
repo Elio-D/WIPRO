@@ -1,0 +1,37 @@
+<app-admin-header></app-admin-header>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="display-2 justify-content-center col-md-5 col-12 p-3 titeluebersicht">Admin - Kursanalyse</div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <table class="table table-light table-hover">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">Kursname</th>
+                <th scope="col">Anzahl aufrufe</th>
+                <th scope="col" class="text-end">Steuerung</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let kurs of countLogsKursbesuche">
+            <tr>
+                <td>{{kurs.kursname}}</td>
+                <td>{{kurs.anzahlAufrufe}}</td>
+                <td class="text-end">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#' + trimString(kurs.kursname)" style="margin-right: 10px">
+                        Details
+                    </button>
+                    <button class="btn btn-danger" type="button" (click)="deleteKurslogs(kurs.id)">
+                        Löschen
+                    </button>
+                </td>
+            </tr>
+            <tr *ngFor="let log of getKurslogsByID(kurs.id)" class="collapse table" id="{{trimString(kurs.kursname)}}">
+                <td colspan="3">Aufgrufen am: {{timeConverter(log.timestamp)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

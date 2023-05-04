@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { KurseService } from 'src/app/services/kurse.service';
+
 import { Kurs } from 'src/app/interfaces/kurs';
 import { Kurskategorie } from 'src/app/interfaces/kurskategorie';
 
@@ -25,11 +27,18 @@ export class AdminKursuebersichtComponent implements OnInit {
     this.getKurskategorien_spalte3();
     this.getKurskategorien_spalte4();
   }
-  
+
+  /**
+  * Holt alle Kurse aus der Datenbank via Kursservice
+  */
   getAllKurse() {
     this.kurseService.getAllKurse().subscribe(kurse => this.kurse = kurse);
   }
 
+  /**
+  * (Nächste vier Methoden) Holen alle Kurskategorien der Spalte 1/2/3/4,
+  * beiwelchen auch Kursen der Kategorie zugeteilt wurden via Kursservice
+  */
   getKurskategorien_spalte1() {
     this.kurseService.getAllKategorienFromSpalte(1).subscribe(kurskategorie_S1 => this.kurskategorien_S1 = kurskategorie_S1);
   }
@@ -44,6 +53,16 @@ export class AdminKursuebersichtComponent implements OnInit {
 
   getKurskategorien_spalte4() {
     this.kurseService.getAllKategorienFromSpalte(4).subscribe(kurskategorie_S4 => this.kurskategorien_S4 = kurskategorie_S4);
+  }
+
+  /**
+  * Entfernt alle Leerschläge eines Strings
+  * Wird benötigt, um ID-Attribute-Namen ohne Leerschläge zu garantieren
+  * @param string Der String, welcher von allen Leerschlägen befreit werden solll
+  * @returns Den selben String ohne Leerschläge
+  */
+  trimString(string: string) {
+    return string.replace(/\s/g, "")
   }
 
 }

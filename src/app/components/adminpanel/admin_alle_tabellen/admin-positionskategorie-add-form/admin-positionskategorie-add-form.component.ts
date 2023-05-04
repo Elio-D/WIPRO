@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Positionskategorie } from 'src/app/interfaces/positionskategorie';
-import { PositionenService } from 'src/app/services/positionen.service';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { PositionenService } from 'src/app/services/positionen.service';
+
+import { Positionskategorie } from 'src/app/interfaces/positionskategorie';
 
 @Component({
   selector: 'app-admin-positionskategorie-add-form',
@@ -15,9 +17,9 @@ export class AdminPositionskategorieAddFormComponent implements OnInit {
   positionskategorie: Positionskategorie;
 
   constructor(
-   private positionenService: PositionenService,
-   private location: Location
-  ) { 
+    private positionenService: PositionenService,
+    private location: Location
+  ) {
     this.positionskategorie = {
     } as Positionskategorie;
   }
@@ -35,7 +37,7 @@ export class AdminPositionskategorieAddFormComponent implements OnInit {
     });
   }
 
-  spalten: number[] = [1,2,3,4];
+  spalten: number[] = [1, 2, 3, 4];
 
   positonskategorieHinzugefuegt = false;
 
@@ -47,17 +49,21 @@ export class AdminPositionskategorieAddFormComponent implements OnInit {
     return this.positionskateogrieAddForm.get('positionskategoriename')!;
   }
 
-  onSubmit() { 
+  /**
+  * Speichert neue Kategorie via Positionsservice ab
+  */
+  onSubmit() {
     this.positionskategorie.spalte = this.positionskateogrieAddForm.value.spalte;
     this.positionskategorie.positionskategoriename = this.positionskateogrieAddForm.value.positionskategoriename;
     this.positionenService.addPositionskategorie(this.positionskategorie).subscribe((data: any) => {
       this.positionskategorie.id = data.insertId;
       this.positonskategorieHinzugefuegt = true;
-      console.log(data.insertId);
-    console.log(this.positionskategorie);
     });
   }
-  
+
+  /**
+  * Geht eine Seite zurück
+  */
   goBack() {
     this.location.back();
   }

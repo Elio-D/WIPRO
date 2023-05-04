@@ -1,88 +1,96 @@
 <app-user-header></app-user-header>
 
-<div class="row justify-content-center">
-  <button routerLink="/kursuebersicht" class="col-md-3 col-10 navUebersichtPassive">Kursübersicht</button>
+<div class="row justify-content-center" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+  <button routerLink="/uebersicht/kursuebersicht" class="col-md-3 col-10 navUebersichtPassive">Kursübersicht</button>
   <div class="col-md-1 col-12"></div>
   <button class="col-md-3 col-10 navUebersichtAktive">Positionsübersicht</button>
 </div>
 
 <div class="container-fluid">
-    <div class="row justify-content-center">
-      <div class="display-2 justify-content-center col-md-5 col-12 p-3 titeluebersicht" style="background-color: #D94452;">Positionsübersicht</div>
-    </div>
-      <div class="row row-cols">
-        <div class="col-md-3 col-12">
-          
-          <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S1">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="header-{{positionskategorie.positionskategoriename}}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + positionskategorie.positionskategoriename">
-                  {{positionskategorie.positionskategoriename}}
-                </button>
-              </h2>
-              <div id="{{positionskategorie.positionskategoriename}}" class="accordion-collapse collapse show">
-                <div class="list-group list-group-flush">
-                  <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>         
-                </div>
-              </div>
+  
+  <div class="row justify-content-center">
+    <div class="display-2 justify-content-center col-md-5 col-12 p-3 titeluebersicht"
+      style="background-color: #D94452;">Positionsübersicht</div>
+  </div>
+
+  <div class="row row-cols">
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S1">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(positionskategorie.positionskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(positionskategorie.positionskategoriename)">
+              {{positionskategorie.positionskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(positionskategorie.positionskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>
             </div>
           </div>
-
-        </div>
-        <div class="col-md-3 col-12">
-      
-          <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S2">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="header-{{positionskategorie.positionskategoriename}}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + positionskategorie.positionskategoriename">
-                  {{positionskategorie.positionskategoriename}}
-                </button>
-              </h2>
-              <div id="{{positionskategorie.positionskategoriename}}" class="accordion-collapse collapse show">
-                <div class="list-group list-group-flush">
-                  <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>             
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-md-3 col-12">
-
-          <div class="accordion accordion-flush  p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S3">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="header-{{positionskategorie.positionskategoriename}}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + positionskategorie.positionskategoriename">
-                  {{positionskategorie.positionskategoriename}}
-                </button>
-              </h2>
-              <div id="{{positionskategorie.positionskategoriename}}" class="accordion-collapse collapse show">
-                <div class="list-group list-group-flush">
-                  <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>           
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-md-3 col-12">
-         
-          <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S4">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="header-{{positionskategorie.positionskategoriename}}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + positionskategorie.positionskategoriename">
-                  {{positionskategorie.positionskategoriename}}
-                </button>
-              </h2>
-              <div id="{{positionskategorie.positionskategoriename}}" class="accordion-collapse collapse show">
-                <div class="list-group list-group-flush">
-                  <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action" *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>         
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
-  
+    </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S2">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(positionskategorie.positionskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(positionskategorie.positionskategoriename)">
+              {{positionskategorie.positionskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(positionskategorie.positionskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush  p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S3">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(positionskategorie.positionskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(positionskategorie.positionskategoriename)">
+              {{positionskategorie.positionskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(positionskategorie.positionskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+      <div class="accordion accordion-flush p-1" id="red" *ngFor="let positionskategorie of positionskategorien_S4">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="header-{{trimString(positionskategorie.positionskategoriename)}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + trimString(positionskategorie.positionskategoriename)">
+              {{positionskategorie.positionskategoriename}}
+            </button>
+          </h2>
+          <div id="{{trimString(positionskategorie.positionskategoriename)}}" class="accordion-collapse collapse show">
+            <div class="list-group list-group-flush">
+              <a routerLink="/positionsdetail/{{position.id}}" class="list-group-item list-group-item-action"
+                *ngFor="let position of positionen | filterPosition:positionskategorie.positionskategoriename">{{position.positionsname}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+</div>

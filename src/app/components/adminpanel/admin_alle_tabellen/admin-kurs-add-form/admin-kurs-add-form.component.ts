@@ -25,7 +25,7 @@ function minSelectedCheckboxes(min = 1) {
   selector: 'app-admin-kurs-add-form',
   templateUrl: './admin-kurs-add-form.component.html',
   styleUrls: ['./admin-kurs-add-form.component.css'],
-  
+
 })
 export class AdminKursAddFormComponent implements OnInit {
 
@@ -49,7 +49,7 @@ export class AdminKursAddFormComponent implements OnInit {
   ) {
     this.kurs = {
     } as Kurs;
-   }
+  }
 
   ngOnInit(): void {
     this.kursAddForm = new FormGroup({
@@ -98,53 +98,59 @@ export class AdminKursAddFormComponent implements OnInit {
     return this.kursAddForm.get('link')!;
   }
 
+  /**
+  * Fügt zu jeder Kompetenz eine Checkbox für das Formular hinzu. 
+  * In Form eines neuen FormControls.
+  */
   private addCheckboxes() {
     this.allKompetenzen.forEach(() => this.kurskompetenzen_erlerndend.push(new FormControl(this.kurs.kurskompetenzen_erlerndend)));
   }
 
-
+  /**
+  * Holt alle Kurse, Kurskateogiren und Kompetenzen via Kurs- und Kompetenzenservice
+  */
   getData() {
-    this.kurseService.getAllKurse().subscribe(kurse => this.allkurse = kurse); 
-    this.kurseService.getAllKurskategorien().subscribe(kurskategorie => this.allKurskategorien = kurskategorie); 
-    this.komptenzenService.getAllKompetenzen().subscribe((kompetenzen) =>  {
+    this.kurseService.getAllKurse().subscribe(kurse => this.allkurse = kurse);
+    this.kurseService.getAllKurskategorien().subscribe(kurskategorie => this.allKurskategorien = kurskategorie);
+    this.komptenzenService.getAllKompetenzen().subscribe((kompetenzen) => {
       this.allKompetenzen = kompetenzen
       this.addCheckboxes();
-    }); 
+    });
   }
-  
-  onSubmit() { 
+
+  /**
+  * Parst Daten (Kurskategorie & Kompetenzen) aus dem Formular in Objecte für die Datenabspeicherung um
+  * und speichert neuen Kurs via Kursservice ab
+  */
+  onSubmit() {
     const selectedKurskategorie = this.kursAddForm.value.kurskategorie;
     this.kursAddForm.value.kurskategorie = this.allKurskategorien.find(kategorie => kategorie.kurskategoriename == selectedKurskategorie);
 
     const selectedKompetenzen = this.kursAddForm.value.kurskompetenzen_erlerndend;
     this.kursAddForm.value.kurskompetenzen_erlerndend = [];
-    selectedKompetenzen.forEach((element: boolean, index:number) => {
-      if(element == true) {
+    selectedKompetenzen.forEach((element: boolean, index: number) => {
+      if (element == true) {
         this.kursAddForm.value.kurskompetenzen_erlerndend.push(this.allKompetenzen[index])
       }
     });
-    
+
     this.kurs.kursname = this.kursAddForm.value.kursname;
     this.kurs.kursbeschreibung = this.kursAddForm.value.kursbeschreibung;
     this.kurs.kurskategorie = this.kursAddForm.value.kurskategorie;
     this.kurs.kurskompetenzen_erlerndend = this.kursAddForm.value.kurskompetenzen_erlerndend;
-    this.kurs.link = this.kursAddForm.value.link;  
+    this.kurs.link = this.kursAddForm.value.link;
 
     this.kurseService.addKurs(this.kurs).subscribe((data: any) => {
       this.kurs.id = data.insertId;
-      
-      this.kurseService.addKurs_Kat(this.kurs).subscribe((data1: any) =>{
+
+      this.kurseService.addKurs_Kat(this.kurs).subscribe((data1: any) => {
         this.kurs.kurskompetenzen_erlerndend.forEach(element => {
-          this.kurseService.addKurs_Komp(element.id, this.kurs).subscribe((data: any) =>{
-            console.log(this.kurs);
-          });
+          this.kurseService.addKurs_Komp(element.id, this.kurs).subscribe((data: any) => {});
         });
       });
       this.kursHinzugefuegt = true;
-      console.log(data.insertId);
-    console.log(this.kurs);
-  });
-}
+    });
+  }
 
   goBack() {
     this.location.back();
